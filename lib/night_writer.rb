@@ -9,6 +9,10 @@ class NightWriter
   def terminal_message
     "Created '#{@output_file}' containing 256 characters"
   end
+
+  def read_input_file 
+    File.read(@input_file)
+  end
 end
 
 test = NightWriter.new

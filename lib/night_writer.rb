@@ -1,1 +1,3 @@
-puts "Created 'braille.txt' containing 256 characters"
+files = ARGV
+
+puts "Created '#{files[1]}' containing 256 characters"

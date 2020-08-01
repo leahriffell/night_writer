@@ -28,4 +28,10 @@ class NightWriterTest < MiniTest::Test
   def test_it_can_return_terminal_message
     assert_equal "Created 'braille.txt' containing 20 characters", @night_writer.terminal_message
   end
+
+  def test_it_can_write_input_content_to_output_file
+    @night_writer.write_input_content_to_output_file
+
+    assert_equal "This has characters!", @night_writer.read_output_file
+  end
 end

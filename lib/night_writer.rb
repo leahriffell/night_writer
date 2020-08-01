@@ -1,5 +1,5 @@
 class NightWriter 
-  attr_reader :output_path, :input_content
+  attr_reader :output_path
 
   def initialize
     @input_path = ARGV[0]

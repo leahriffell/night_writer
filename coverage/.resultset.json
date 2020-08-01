@@ -1,0 +1,35 @@
+{
+  "Unit Tests": {
+    "coverage": {
+      "/Users/leahriffell/turing/1module/night_writer/lib/night_writer.rb": {
+        "lines": [
+          1,
+          1,
+          null,
+          1,
+          4,
+          4,
+          null,
+          null,
+          1,
+          4,
+          null,
+          null,
+          1,
+          3,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    "timestamp": 1596244766
+  }
+}

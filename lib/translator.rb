@@ -34,4 +34,14 @@ class Translator
     @char_map[:y] = "00.000"
     @char_map[:z] = "0..000"
   end
+
+  def convert_to_multi_line(braille)
+    "#{braille[0]}" + "#{braille[1]}\n" +
+    "#{braille[2]}" + "#{braille[3]}\n" +
+    "#{braille[4]}" + "#{braille[5]}"
+  end
+
+  def char_to_braille_with_formatting(char)
+    convert_to_multi_line(@char_map[char.to_sym])
+  end
 end

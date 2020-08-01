@@ -14,4 +14,9 @@ class TranslatorTest < MiniTest::Test
     assert_equal "0......", @translator.char_map[:a]
     assert_equal "0.00..", @translator.char_map[:h]
   end
+
+  def test_it_can_return_with_braille_formatting
+    assert_equal "00\n.0\n0.", @translator.convert_to_braille("n")
+    assert_equal "00\n.0\n00", @translator.convert_to_braille("ys")
+  end
 end

@@ -8,7 +8,7 @@ require './lib/night_writer'
 class NightWriterTest < MiniTest::Test 
   def setup 
     ARGV.replace ['message.txt', 'braille.txt']
-    File.stubs(:read).returns("This has characters!")
+    File.stubs(:read_input_file).returns("This has characters!")
     @night_writer = NightWriter.new
   end
   

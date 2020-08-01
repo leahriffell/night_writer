@@ -1,4 +1,5 @@
 require './lib/translator'
+require './lib/row'
 
 class NightWriter 
   attr_reader :output_path
@@ -37,6 +38,23 @@ class NightWriter
 
     File.open(@output_path, "w") { |f| f.write translation }
     read_output_file
+  end
+
+  def split_into_rows
+    num_rows = (read_input_file.length/80.to_f).round(0)
+    range = (1..num_rows).to_a
+    max_chars_per_row = 80
+    index = 0
+    rows = []
+    range.each do |range|
+      if range == num_rows
+        rows << Row.new(read_input_file[index..-1])
+      else 
+        rows << Row.new(read_input_file[index..(index + max_chars_per_row - 1)])
+      end
+      index += max_chars_per_row
+    end
+    rows
   end
 end
 

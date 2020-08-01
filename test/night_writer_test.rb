@@ -44,4 +44,10 @@ class NightWriterTest < MiniTest::Test
 
     assert_equal "0.0.0.00\n00..0..0\n0.00..00", @night_writer.translate_and_output_multiple_char_to_braille
   end
+
+  def test_it_can_split_into_rows
+    @night_writer.stubs(:read_input_file).returns("Seven am waking up in the morning Gotta be fresh, gotta go downstairs Gotta have my bowl gotta have cereal Seein everything the time is goin Tickin on and on evrybodys rushin Gotta get down to the bus stop")
+
+    assert_equal 3, @night_writer.split_into_rows.count
+  end
 end

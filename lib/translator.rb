@@ -7,6 +7,7 @@ class Translator
   end
 
   def map_character_to_braille
+    @char_map["\n".to_sym] = "\n"
     @char_map[" ".to_sym] = " "
     @char_map[:a] = "0......"
     @char_map[:b] = "0.0..."
@@ -46,12 +47,6 @@ class Translator
     convert_to_multi_line(@char_map[char.to_sym])
   end
 
-  def array_of_braille_for_chars(chars)
-    chars.chars.map do |char|
-      @char_map[char.to_sym]
-    end.join
-  end
-
   def collection_of_braille_translations(chars)
     collection = []
     chars.chars.each do |char|
@@ -60,35 +55,6 @@ class Translator
       collection << translation
     end
     collection
-  end
-
-  # def column_headers(chars)
-  #   chars.chars.map do |char|
-  #     char_to_braille(char)[0..1]
-  #   end.join
-  # end
-
-  def rows(chars)
-    "#{@char_map[chars.chars[0].to_sym][0]}\n#{@char_map[chars.chars[0].to_sym][2]}\n#{@char_map[chars.chars[0].to_sym][4]}"
-    # row_1 = "#{@char_map[chars.chars[0].to_sym][0]}\n"
-    # row_2 = "#{@char_map[chars.chars[0].to_sym][2]}\n"
-    # row_3 = "#{@char_map[chars.chars[0].to_sym][4]}"
-  end
-
-  def first_char_row_1(chars)
-    "#{@char_map[chars.chars[0].to_sym][0]}"
-  end
-
-  def first_char_row_2(chars)
-    "#{@char_map[chars.chars[0].to_sym][2]}"
-  end
-
-  def first_char_row_3(chars)
-    "#{@char_map[chars.chars[0].to_sym][4]}"
-  end
-
-  def char_count(chars)
-    chars.length
   end
 
   def render_rows_and_columns(chars)
@@ -101,6 +67,7 @@ class Translator
       row_2 << translation[0][2..3]
       row_3 << translation[0][4..5]
     end
+    
     "#{row_1}\n#{row_2}\n#{row_3}" 
   end 
 end

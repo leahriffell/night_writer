@@ -1,9 +1,12 @@
+require './lib/translator'
+
 class NightWriter 
   attr_reader :output_path
 
   def initialize
     @input_path = ARGV[0]
     @output_path = ARGV[1]
+    @translator = Translator.new
   end
 
   def read_input_file 
@@ -20,6 +23,12 @@ class NightWriter
 
   def read_output_file 
     File.read(@output_path)
+  end
+
+  def translate_single_char_to_braille_and_write_to_output
+    translation = @translator.char_to_braille_with_formatting(read_input_file)
+    File.open(@output_path, "w") { |f| f.write translation }
+    read_output_file
   end
 end
 

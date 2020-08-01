@@ -30,4 +30,10 @@ class NightWriterTest < MiniTest::Test
 
     assert_equal "This has characters!", @night_writer.read_output_file
   end
+
+  def test_it_can_translate_single_char_to_braille
+    @night_writer.stubs(:read_input_file).returns("h")
+
+    assert_equal "0.\n00\n..", @night_writer.read_output_file
+  end
 end

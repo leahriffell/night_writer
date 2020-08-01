@@ -6,7 +6,6 @@ require './lib/night_writer'
 class NightWriterTest < MiniTest::Test 
   def setup 
     ARGV.replace ['message.txt', 'braille.txt']
-    # File.read.replace "test"
     @night_writer = NightWriter.new
   end
   

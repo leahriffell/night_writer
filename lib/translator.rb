@@ -44,11 +44,21 @@ class Translator
   def char_to_braille_with_formatting(char)
     convert_to_multi_line(@char_map[char.to_sym])
   end
-  
+
   def array_of_braille_for_chars(chars)
     chars.chars.map do |char|
       @char_map[char.to_sym]
     end.join
+  end
+
+  def collection_of_braille_translations(chars)
+    collection = []
+    chars.chars.each do |char|
+      translation = []
+      translation << @char_map[char.to_sym]
+      collection << translation
+    end
+    collection
   end
 
   # def column_headers(chars)
@@ -81,33 +91,15 @@ class Translator
   end
 
   def render_rows_and_columns(chars)
-    # index = 0
-    # rows_and_cells = ""
-    # generate_rows.each do |row|
-    #   rows_and_cells << "#{row} #{rendered_cells(ship_display)[index..(index + cells_per_row - 1)].join("")}\n"
-    #   index += cells_per_row
-    # end
-    # rows_and_cells
-    char_1_index_start = 0
-    char_2_index_start = 6
+    row_1 = ""
+    row_2 = ""
+    row_3 = ""
 
-    # "#{first_char_row_1(chars)} #{array_of_braille_for_chars[char_1_index_start] + 1} 
-    # #{first_char_row_2(chars)} hi
-    # #{first_char_row_3(chars)} hello"
-    "#{array_of_braille_for_chars(chars)[0]}" + 
-    "#{array_of_braille_for_chars(chars)[1]}" + 
-    "#{array_of_braille_for_chars(chars)[6]}" + 
-    "#{array_of_braille_for_chars(chars)[7]}\n" + 
-    "#{array_of_braille_for_chars(chars)[2]}" + 
-    "#{array_of_braille_for_chars(chars)[3]}" + 
-    "#{array_of_braille_for_chars(chars)[8]}" + 
-    "#{array_of_braille_for_chars(chars)[9]}\n" + 
-    "#{array_of_braille_for_chars(chars)[4]}" + 
-    "#{array_of_braille_for_chars(chars)[5]}" + 
-    "#{array_of_braille_for_chars(chars)[10]}" + 
-    "#{array_of_braille_for_chars(chars)[11]}" 
+    collection_of_braille_translations(chars).each do |translation|
+      row_1 << translation[0][0..1]
+      row_2 << translation[0][2..3]
+      row_3 << translation[0][4..5]
+    end
+    "#{row_1}\n#{row_2}\n#{row_3}" 
   end 
-
-  def multi_char_to_braille_with_formatting(chars)
-  end
 end

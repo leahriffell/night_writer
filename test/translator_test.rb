@@ -23,4 +23,20 @@ class TranslatorTest < MiniTest::Test
     assert_equal "00\n.0\n0.", @translator.char_to_braille_with_formatting("n")
     assert_equal "00\n.0\n00", @translator.char_to_braille_with_formatting("y")
   end
+
+  def test_it_can_generate_row_starting_chars
+    assert_equal "0\n0\n0", @translator.rows("ru")
+  end
+
+  # def test_it_can_generate_column_headers
+  #   assert_equal "0.0.", @translator.column_headers("ru")
+  # end
+
+  def test_it_can_get_num_chars
+    assert_equal 2, @translator.char_count("ru")
+  end
+
+  def test_it_can_translate_multi_chars_with_braille_formatting
+    assert_equal "0.0.\n00..\n0.00", @translator.render_rows_and_columns("ru")
+  end
 end

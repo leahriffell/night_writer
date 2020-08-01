@@ -22,7 +22,7 @@ class NightWriterTest < MiniTest::Test
   end
 
   def test_it_can_get_char_count_in_input_file
-    assert_equal 20, @night_writer.input_content_length
+    assert_equal 20, @night_writer.read_input_file.length
   end
 
   def test_it_can_return_terminal_message

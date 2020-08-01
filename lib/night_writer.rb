@@ -2,7 +2,7 @@ require './lib/translator'
 require './lib/row'
 
 class NightWriter 
-  attr_reader :output_path
+  attr_reader :output_path, :input_path
 
   def initialize
     @input_path = ARGV[0]
@@ -11,7 +11,7 @@ class NightWriter
   end
 
   def read_input_file 
-    File.read(@input_path)
+    File.read(@input_path).downcase
   end
 
   def terminal_message
@@ -33,17 +33,23 @@ class NightWriter
     read_output_file
   end
 
-  def translate_and_output_multiple_char_to_braille
-    translation = @translator.render_rows_and_columns(read_input_file)
-
-    File.open(@output_path, "w") { |f| f.write translation }
+  def translate_and_output_multiple_char_to_braille    
+    split_into_rows.each_with_index do |row, index| 
+      if (index != split_into_rows.length - 1) && (split_into_rows.length > 1)
+        translation = @translator.render_rows_and_columns(row.text)
+        File.open(@output_path, "a") { |f| f.write "#{translation}\n" }
+      else 
+        translation = @translator.render_rows_and_columns(row.text)
+        File.open(@output_path, "a") { |f| f.write translation }
+      end
+    end
     read_output_file
   end
 
   def split_into_rows
-    num_rows = (read_input_file.length/80.to_f).round(0)
+    num_rows = (read_input_file.length/40.to_f).ceil
     range = (1..num_rows).to_a
-    max_chars_per_row = 80
+    max_chars_per_row = 40
     index = 0
     rows = []
     range.each do |range|
@@ -56,6 +62,10 @@ class NightWriter
     end
     rows
   end
+
+  # def split_into_rows
+  #   read_output_file.scan(/.{1,80}/).join("\n")
+  # end
 end
 
 # test = NightWriter.new  

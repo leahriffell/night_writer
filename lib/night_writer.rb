@@ -1,19 +1,24 @@
 class NightWriter 
-  attr_reader :output_file
+  attr_reader :output_path, :input_content
 
   def initialize
-    @input_file = ARGV[0]
-    @output_file = ARGV[1]
-  end
-
-  def terminal_message
-    "Created '#{@output_file}' containing 256 characters"
+    @input_path = ARGV[0]
+    @output_path = ARGV[1]
   end
 
   def read_input_file 
-    File.read(@input_file)
+    File.read(@input_path)
+  end
+
+  def input_content_length
+    read_input_file.length
+  end
+
+  def terminal_message
+    input_content_length
+    "Created '#{@output_path}' containing #{input_content_length} characters"
   end
 end
 
-test = NightWriter.new
-p test.terminal_message
+# test = NightWriter.new  
+# puts test.terminal_message

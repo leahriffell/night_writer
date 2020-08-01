@@ -40,9 +40,8 @@ class NightWriterTest < MiniTest::Test
   end
 
   def test_it_can_translate_and_output_multiple_char_to_braille
-    @night_writer.stubs(:read_input_file).returns("ru")
-    translation = "0.0.\n00..\n0.00"
+    @night_writer.stubs(:read_input_file).returns("ruby")
 
-    assert_equal translation, @night_writer.translate_and_output_multiple_char_to_braille
+    assert_equal "0.0.0.00\n00..0..0\n0.00..00", @night_writer.translate_and_output_multiple_char_to_braille
   end
 end

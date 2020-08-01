@@ -27,7 +27,7 @@ class NightWriter
 
   def translate_and_output_single_char_to_braille
     translation = @translator.char_to_braille_with_formatting(read_input_file)
-    
+
     File.open(@output_path, "w") { |f| f.write translation }
     read_output_file
   end

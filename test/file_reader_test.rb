@@ -10,8 +10,4 @@ class FileReaderTest < MiniTest::Test
   def test_it_exists 
     assert_instance_of FileReader, @input
   end
-
-  def test_it_can_be_written_to
-    assert_equal "Four for you, Glenn Coco!", @input.write("Four for you, Glenn Coco!")
-  end
 end

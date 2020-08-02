@@ -15,16 +15,16 @@ class NightWriter
     @input.input
   end
 
+  def read_output_file 
+    File.read(@output_path)
+  end
+
   def terminal_message
     "Created '#{@output_path}' containing #{read_input_file.length} characters"
   end
 
   def write_input_content_to_output_file 
     File.open(@output_path, "w") { |f| f.write read_input_file  }
-  end
-
-  def read_output_file 
-    File.read(@output_path)
   end
 
   def translate_and_output_to_braille   

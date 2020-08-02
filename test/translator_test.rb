@@ -25,8 +25,6 @@ class TranslatorTest < MiniTest::Test
     assert_equal "Created 'braille.txt' containing 20 characters", @translator.terminal_message
   end
 
-  # -------- original methods below ----------
-
   def test_it_can_lookup_braille_for_character
     assert_equal "0......", @translator.char_to_braille("a")
     assert_equal "0.00..", @translator.char_to_braille("h")
@@ -50,5 +48,25 @@ class TranslatorTest < MiniTest::Test
 
   def test_it_can_translate_and_output_to_braille
     assert_equal "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...", @translator.translate_to_braille("hello worldhello worldhello worldhello world")
+  end
+
+  # translation and output related methods 
+
+  def test_it_can_translate_and_output_single_char_to_braille
+    @translator.stubs(:read_input_file).returns("h")
+
+    assert_equal "0.\n00\n..", @translator.translate_and_write_to_output
+  end
+
+  def test_it_can_translate_and_output_multiple_char_to_braille
+    @translator.stubs(:read_input_file).returns("ruby")
+
+    assert_equal "0.0.0.00\n00..0..0\n0.00..00", @translator.translate_and_write_to_output
+  end
+
+  def test_it_can_translate_and_output_multi_rows_to_braille
+    @translator.stubs(:read_input_file).returns("hello worldhello worldhello worldhello world")
+
+    assert_equal "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...", @translator.translate_and_write_to_output
   end
 end

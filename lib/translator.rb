@@ -26,8 +26,6 @@ class Translator
     "Created '#{@output_path}' containing #{read_input_file.length} characters"
   end
 
-  # ---- original methods below -----
-
   def char_to_braille(char)
     @dictionary.char_map[char.to_sym]
   end
@@ -86,5 +84,10 @@ class Translator
       end
     end
     result
+  end
+
+  def translate_and_write_to_output
+    @output.write(translate_to_braille(read_input_file))
+    read_output_file
   end
 end

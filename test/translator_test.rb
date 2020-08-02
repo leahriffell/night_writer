@@ -37,7 +37,7 @@ class TranslatorTest < MiniTest::Test
     assert_equal "0.00..", @translator.char_to_braille("h")
   end
 
-  def test_it_can_return_collection_of_braille_arrays
+  def test_it_can_return_collection_of_braille_translations
     assert_equal [["0.000."], ["0...00"]], @translator.collection_of_braille_translations("ru")
   end
 
@@ -94,4 +94,8 @@ class TranslatorTest < MiniTest::Test
     assert_equal "ruby", @translator.translate_to_alpha
   end
 
+  def test_it_can_return_collection_of_braille_arrays_by_row
+    #the braille below translates to "ru". The hash key is the braille as it's meant to print to file. 
+    assert_equal ({"0.0.\n00..\n0.00" => ["0.000.", "0...00"]}), @translator.collection_of_braille_arrays_by_row("0.0.\n00..\n0.00")
+  end
 end

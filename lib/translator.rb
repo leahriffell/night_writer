@@ -117,17 +117,19 @@ class Translator
     end
     rows
   end
-
-  def braille_without_multi_line_formatting 
-  end
-
-  def collection_of_braille_translations(chars)
-    collection = []
-    chars.chars.each do |char|
-      translation = []
-      translation << char_to_braille(char)
-      collection << translation
-    end
-    collection
+  
+  def collection_of_braille_arrays_by_row(braille)    
+    split_braille_into_rows(braille).reduce({}) do |result, row| 
+        index = 0 
+        strings = []
+        (braille.gsub("\n", "").length/6).times do 
+          strings << split_braille_into_rows(braille)[0].text.split("\n").map do |sub_row| 
+            sub_row[index..(index + 1)]
+          end.join
+          index += 2
+        end      
+      result[row.text] = strings 
+      result
+      end
   end
 end

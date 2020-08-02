@@ -1,17 +1,18 @@
+require './lib/file_reader'
 require './lib/translator'
 require './lib/row'
 
 class NightWriter 
-  attr_reader :output_path, :input_path
+  attr_reader :output_path
 
   def initialize
-    @input_path = ARGV[0]
     @output_path = ARGV[1]
+    @input = FileReader.new
     @translator = Translator.new
   end
 
   def read_input_file 
-    File.read(@input_path).downcase
+    @input.input
   end
 
   def terminal_message
@@ -62,10 +63,6 @@ class NightWriter
     end
     rows
   end
-
-  # def split_into_rows
-  #   read_output_file.scan(/.{1,80}/).join("\n")
-  # end
 end
 
 # test = NightWriter.new  

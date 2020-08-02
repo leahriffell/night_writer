@@ -87,15 +87,12 @@ class TranslatorTest < MiniTest::Test
     assert_equal 4, @translator.split_braille_into_rows("0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...").count
   end
 
-  def test_it_can_translate_and_output_multiple_alpha_to_braille
-    skip
-    @translator.stubs(:read_input_file).returns("0.0.0.00\n00..0..0\n0.00..00")
-
-    assert_equal "ruby", @translator.translate_to_alpha
-  end
+  # def test_it_can_translate_and_output_multiple_alpha_to_braille
+  #   assert_equal "ruby", @translator.translate_to_alpha("0.0.0.00\n00..0..0\n0.00..00")
+  # end
 
   def test_it_can_return_collection_of_braille_arrays_by_row
     #the braille below translates to "ru". The hash key is the braille as it's meant to print to file. 
-    assert_equal ({"0.0.\n00..\n0.00" => ["0.000.", "0...00"]}), @translator.collection_of_braille_arrays_by_row("0.0.\n00..\n0.00")
+    assert_equal ({"0.0.\n00..\n0.00" => [["0.000."], ["0...00"]]}), @translator.collection_of_braille_arrays_by_row("0.0.\n00..\n0.00")
   end
 end

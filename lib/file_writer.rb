@@ -3,11 +3,14 @@ class FileWriter
   
   def initialize
     @output_path = ARGV[1]
-    @output = File.read(@output_path)
+    @output = File.new(@output_path, "w")
+  end
+
+  def read_file 
+    File.read(@output)
   end
 
   def write(content)
-    File.open(@output_path, "w") { |f| f.write content }
-    @output
+    File.write(@output_path, content)
   end
 end

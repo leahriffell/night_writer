@@ -3,12 +3,24 @@ require './lib/translator'
 
 class TranslatorTest < MiniTest::Test 
   def setup 
+    ARGV.replace ['message.txt', 'braille.txt']
     @translator = Translator.new
   end
 
   def test_it_exists
     assert_instance_of Translator, @translator
   end
+
+  def test_it_can_read_input_file
+    assert_instance_of String, @translator.read_input_file
+  end
+
+  def test_it_can_read_output_file
+    assert_instance_of String, @translator.read_input_file
+  end
+
+
+  # -------- original methods below ----------
 
   def test_it_can_lookup_braille_for_character
     assert_equal "0......", @translator.char_to_braille("a")

@@ -1,12 +1,28 @@
-require './lib/row'
+require './lib/file_reader'
+require './lib/file_writer'
 require './lib/dictionary'
+require './lib/row'
 
 class Translator
   attr_reader :char_map
 
   def initialize
     @dictionary = Dictionary.new
+    @output_path = ARGV[1]
+    @input_path = ARGV[0]
+    @input = FileReader.new
+    @output = FileWriter.new
   end
+
+  def read_input_file 
+    @input.read
+  end
+
+  def read_output_file 
+    @output.read
+  end
+
+  # ---- original methods below -----
 
   def char_to_braille(char)
     @dictionary.char_map[char.to_sym]

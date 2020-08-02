@@ -3,6 +3,9 @@ class FileReader
   
   def initialize
     @input_path = ARGV[0]
-    @input = File.read(@input_path)
+  end
+
+  def read
+    File.read(@input_path)
   end
 end

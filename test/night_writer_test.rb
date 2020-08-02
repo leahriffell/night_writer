@@ -43,23 +43,19 @@ class NightWriterTest < MiniTest::Test
   def test_it_can_translate_and_output_multiple_char_to_braille
     @night_writer.stubs(:read_input_file).returns("ruby")
 
-    assert_equal "0.0.0.00\n00..0..0\n0.00..00", @night_writer.translate_and_output_multiple_char_to_braille
+    assert_equal "0.0.0.00\n00..0..0\n0.00..00", @night_writer.translate_and_output_to_braille
 
     File.open(@night_writer.output_path, "w") { |f| f.write "" }
     @night_writer.stubs(:read_input_file).returns("hello world")
 
-    assert_equal "0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0...", @night_writer.translate_and_output_multiple_char_to_braille
+    assert_equal "0.0.0.0.0....00.0.0.00\n00.00.0..0..00.0000..0\n....0.0.0....00.0.0...", @night_writer.translate_and_output_to_braille
   end
-
-  def test_it_can_split_into_rows
-    @night_writer.stubs(:read_input_file).returns("hello worldhello worldhello worldhello world")
-
-    assert_equal 2, @night_writer.split_into_rows.count
-  end
-
+  
   def test_it_can_translate_and_output_multi_rows_to_braille
     @night_writer.stubs(:read_input_file).returns("hello worldhello worldhello worldhello world")
 
-    assert_equal "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...", @night_writer.translate_and_output_multiple_char_to_braille 
+    assert_equal "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...", @night_writer.translate_and_output_to_braille 
   end
+
+
 end

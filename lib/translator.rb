@@ -103,6 +103,7 @@ class Translator
 
   def split_braille_into_rows(braille)
     # num_rows = (braille.gsub("\n", "").length/240.to_f).ceil
+    # each cluster/row will have three new line chars which each count as 1 in ruby. This is why it's changed to 243 below. 
     num_rows = (braille.length/243.to_f).ceil
     range = (1..num_rows).to_a
     max_chars_per_row_grouping = 243
@@ -145,5 +146,9 @@ class Translator
     collection_of_multi_row_braille_into_arrays_by_row(braille).values.flatten.map do |braille_str|
       braille_to_alpha(braille_str)
     end.join
+  end
+
+  def translate_and_line_wrap(braille)
+    translate_to_alpha(braille).scan(/.{1,40}/).join("\n")
   end
 end

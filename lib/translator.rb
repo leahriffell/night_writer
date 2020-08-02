@@ -22,6 +22,10 @@ class Translator
     @output.read
   end
 
+  def terminal_message
+    "Created '#{@output_path}' containing #{read_input_file.length} characters"
+  end
+
   # ---- original methods below -----
 
   def char_to_braille(char)

@@ -19,6 +19,11 @@ class TranslatorTest < MiniTest::Test
     assert_instance_of String, @translator.read_input_file
   end
 
+  def test_it_can_return_terminal_message
+    @translator.stubs(:read_input_file).returns("This has characters!")
+
+    assert_equal "Created 'braille.txt' containing 20 characters", @translator.terminal_message
+  end
 
   # -------- original methods below ----------
 

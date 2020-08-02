@@ -1,11 +1,29 @@
-require './lib/row'
+require './lib/file_reader'
+require './lib/file_writer'
 require './lib/dictionary'
+require './lib/row'
 
 class Translator
   attr_reader :char_map
 
   def initialize
     @dictionary = Dictionary.new
+    @output_path = ARGV[1]
+    @input_path = ARGV[0]
+    @input = FileReader.new
+    @output = FileWriter.new
+  end
+
+  def read_input_file 
+    @input.read
+  end
+
+  def read_output_file 
+    @output.read
+  end
+
+  def terminal_message
+    "Created '#{@output_path}' containing #{read_input_file.length} characters"
   end
 
   def char_to_braille(char)
@@ -66,5 +84,10 @@ class Translator
       end
     end
     result
+  end
+
+  def translate_and_write_to_output
+    @output.write(translate_to_braille(read_input_file))
+    read_output_file
   end
 end

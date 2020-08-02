@@ -137,8 +137,9 @@ class Translator
     end
   end
 
-  # def translate_to_alpha(braille)
-  #   collection_of_braille_arrays_by_row(braille)
-  #   require 'pry'; binding.pry
-  # end
+  def translate_to_alpha(braille)
+    collection_of_braille_arrays_by_row(braille).values.flatten.map do |braille_str|
+      braille_to_alpha(braille_str)
+    end.join
+  end
 end

@@ -31,7 +31,7 @@ class Translator
   end
 
   def char_to_braille(char)
-    @dictionary.char_map[char.to_sym]
+    @dictionary.char_map[char]
   end
 
   def collection_of_braille_translations(chars)
@@ -93,5 +93,11 @@ class Translator
   def translate_and_write_to_output
     @output.write(translate_to_braille(read_input_file))
     read_output_file
+  end
+
+  #  methods for converting braille to alpha 
+
+  def braille_to_alpha(braille)
+    @dictionary.char_map.invert[braille]
   end
 end

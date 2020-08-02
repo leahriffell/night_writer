@@ -22,7 +22,7 @@ class TranslatorTest < MiniTest::Test
   def test_it_can_write_input_to_output_file
     @translator.stubs(:read_input_file).returns("hola")
     @translator.write_input_to_output 
-    
+
     assert_equal "hola", @translator.read_output_file
   end
 
@@ -79,9 +79,7 @@ class TranslatorTest < MiniTest::Test
 
   # translation to alphabet and output related methods 
 
-  # def test_it_can_translate_single_alpha_to_braille
-  #   @translator.stubs(:read_input_file).returns("h")
-
-  #   assert_equal "0.\n00\n..", @translator.translate_and_write_to_output
-  # end
+  def test_it_can_translate_single_alpha_to_braille
+    assert_equal "h", @translator.braille_to_alpha("0.00..")
+  end
 end

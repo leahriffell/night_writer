@@ -19,6 +19,13 @@ class TranslatorTest < MiniTest::Test
     assert_instance_of String, @translator.read_input_file
   end
 
+  def test_it_can_write_input_to_output_file
+    @translator.stubs(:read_input_file).returns("hola")
+    @translator.write_input_to_output 
+    
+    assert_equal "hola", @translator.read_output_file
+  end
+
   def test_it_can_return_terminal_message
     @translator.stubs(:read_input_file).returns("This has characters!")
 
@@ -50,7 +57,7 @@ class TranslatorTest < MiniTest::Test
     assert_equal "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...", @translator.translate_to_braille("hello worldhello worldhello worldhello world")
   end
 
-  # translation and output related methods 
+  # translation to braille and output related methods 
 
   def test_it_can_translate_and_output_single_char_to_braille
     @translator.stubs(:read_input_file).returns("h")
@@ -69,4 +76,12 @@ class TranslatorTest < MiniTest::Test
 
     assert_equal "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...", @translator.translate_and_write_to_output
   end
+
+  # translation to alphabet and output related methods 
+
+  # def test_it_can_translate_single_alpha_to_braille
+  #   @translator.stubs(:read_input_file).returns("h")
+
+  #   assert_equal "0.\n00\n..", @translator.translate_and_write_to_output
+  # end
 end

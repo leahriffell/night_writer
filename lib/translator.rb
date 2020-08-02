@@ -22,6 +22,10 @@ class Translator
     @output.read
   end
 
+  def write_input_to_output
+    @output.write(read_input_file)
+  end
+
   def terminal_message
     "Created '#{@output_path}' containing #{read_input_file.length} characters"
   end

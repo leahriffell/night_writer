@@ -6,13 +6,12 @@ class NightWriterTest < MiniTest::Test
     ARGV.replace ['message.txt', 'braille.txt']
     @night_writer = NightWriter.new
     File.open(@night_writer.output_path, "w") { |f| f.write "" }
-    File.open(@night_writer.input_path, "w") { |f| f.write "" }
   end
   
   def test_it_exists
     assert_instance_of NightWriter, @night_writer
     assert_equal 'braille.txt', @night_writer.output_path
-  end
+  end 
 
   def test_it_can_read_input_file
     assert_instance_of String, @night_writer.read_input_file

@@ -23,4 +23,15 @@ class TranslatorTest < MiniTest::Test
     assert_equal "00\n.0\n0.", @translator.char_to_braille_with_formatting("n")
     assert_equal "00\n.0\n00", @translator.char_to_braille_with_formatting("y")
   end
+
+  def test_it_can_return_collection_of_braille_arrays
+    assert_equal [["0.000."], ["0...00"]], @translator.collection_of_braille_translations("ru")
+  end
+
+  def test_it_can_translate_multi_chars_with_braille_formatting
+    assert_equal "0.0.0.00\n00..0..0\n0.00..00", @translator.render_rows_and_columns("ruby")
+
+    translation = "0.0.00000.00000..0.00.0.00000.00000..0.00.0..000000.\n..0....0.00.00000.00..0....0.00.00000.00..0.00...0.0\n....................0.0.0.0.0.0.0.0.0.0.0000.0000000"
+    assert_equal translation, @translator.render_rows_and_columns("abcdefghijklmnopqrstuvwxyz")
+  end
 end

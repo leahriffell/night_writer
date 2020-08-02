@@ -7,6 +7,7 @@ class Translator
   end
 
   def map_character_to_braille
+    @char_map[:" "] = "......"
     @char_map[:a] = "0......"
     @char_map[:b] = "0.0..."
     @char_map[:c] = "00...."
@@ -44,4 +45,28 @@ class Translator
   def char_to_braille_with_formatting(char)
     convert_to_multi_line(@char_map[char.to_sym])
   end
+
+  def collection_of_braille_translations(chars)
+    collection = []
+    chars.chars.each do |char|
+      translation = []
+      translation << @char_map[char.to_sym]
+      collection << translation
+    end
+    collection
+  end
+
+  def render_rows_and_columns(chars)
+    row_1 = ""
+    row_2 = ""
+    row_3 = ""
+
+    collection_of_braille_translations(chars).each do |translation|
+      row_1 << translation[0][0..1]
+      row_2 << translation[0][2..3]
+      row_3 << translation[0][4..5]
+    end
+    
+    "#{row_1}\n#{row_2}\n#{row_3}" 
+  end 
 end

@@ -141,26 +141,6 @@ class Translator
     end
   end
 
-  # def collection_of_braille_arrays_by_row(braille)    
-  #   split_braille_into_rows(braille).reduce({}) do |result, row| 
-  #     # require 'pry'; binding.pry
-  #       index = 0 
-  #       strings = []
-  #       (braille.gsub("\n", "").length/6).times do 
-  #         strings << split_braille_into_rows(braille)[0].text.split("\n").map do |sub_row| 
-  #           sub_row[index..(index + 1)]
-  #         end.join
-  #         index += 2
-  #       end
-  #       string_array = strings.map do |string|
-  #         a = []
-  #         a << string
-  #       end
-  #     result[row.text] = string_array
-  #     result
-  #   end
-  # end
-
   def translate_to_alpha(braille)
     collection_of_multi_row_braille_into_arrays_by_row(braille).values.flatten.map do |braille_str|
       braille_to_alpha(braille_str)

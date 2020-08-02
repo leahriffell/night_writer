@@ -5,6 +5,7 @@ class FileReaderTest < MiniTest::Test
   def setup 
     ARGV.replace ['message.txt', 'braille.txt']
     @file_reader = FileReader.new
+    File.write(@file_reader.input_path, "groutfit")
   end
 
   def test_it_exists 
@@ -12,6 +13,6 @@ class FileReaderTest < MiniTest::Test
   end
 
   def test_it_can_be_read 
-    assert_equal "", @file_reader.read
+    assert_equal "groutfit", @file_reader.read
   end
 end

@@ -1,5 +1,5 @@
 class FileReader 
-  attr_reader :input
+  attr_reader :input_path
   
   def initialize
     @input_path = ARGV[0]

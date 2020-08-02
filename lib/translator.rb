@@ -44,7 +44,7 @@ class Translator
     collection
   end
 
-  def split_into_rows(chars)
+  def split_alpha_into_rows(chars)
     num_rows = (chars.length/40.to_f).ceil
     range = (1..num_rows).to_a
     max_chars_per_row = 40
@@ -78,8 +78,8 @@ class Translator
   def translate_to_braille(chars)  
     result = ""
 
-    split_into_rows(chars).each_with_index do |row, index| 
-      if (index != split_into_rows(chars).length - 1) && (split_into_rows(chars).length > 1)
+    split_alpha_into_rows(chars).each_with_index do |row, index| 
+      if (index != split_alpha_into_rows(chars).length - 1) && (split_alpha_into_rows(chars).length > 1)
         translation = render_rows_and_columns(row.text)
         result << "#{translation}\n"
       else 
@@ -99,5 +99,35 @@ class Translator
 
   def braille_to_alpha(braille)
     @dictionary.char_map.invert[braille]
+  end
+
+  def split_braille_into_rows(chars)
+    num_rows = (chars.length/80.to_f).ceil
+    range = (1..num_rows).to_a
+    max_chars_per_row = 80
+    index = 0
+    rows = []
+    range.each do |range|
+      if range == num_rows
+        rows << Row.new(chars[index..-1])
+      else 
+        rows << Row.new(chars[index..(index + max_chars_per_row - 1)])
+      end
+      index += max_chars_per_row
+    end
+    rows
+  end
+
+  def braille_without_multi_line_formatting 
+  end
+
+  def collection_of_braille_translations(chars)
+    collection = []
+    chars.chars.each do |char|
+      translation = []
+      translation << char_to_braille(char)
+      collection << translation
+    end
+    collection
   end
 end

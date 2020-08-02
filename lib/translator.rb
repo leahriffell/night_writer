@@ -101,33 +101,37 @@ class Translator
     @dictionary.char_map.invert[braille]
   end
 
-  def split_braille_into_rows(chars)
-    num_rows = (chars.length/80.to_f).ceil
+  def split_braille_into_rows(braille)
+    # num_rows = (braille.gsub("\n", "").length/240.to_f).ceil
+    num_rows = (braille.length/243.to_f).ceil
     range = (1..num_rows).to_a
-    max_chars_per_row = 80
+    max_chars_per_row_grouping = 243
     index = 0
     rows = []
     range.each do |range|
       if range == num_rows
-        rows << Row.new(chars[index..-1])
+        rows << Row.new(braille[index..-1])
       else 
-        rows << Row.new(chars[index..(index + max_chars_per_row - 1)])
+        rows << Row.new(braille[index..(index + max_chars_per_row_grouping - 1)])
       end
-      index += max_chars_per_row
+      index += max_chars_per_row_grouping
     end
     rows
   end
 
-  def collection_of_braille_arrays_by_row(braille)    
-    split_braille_into_rows(braille).reduce({}) do |result, row| 
+  def collection_of_multi_row_braille_into_arrays_by_row(braille) 
+    # require 'pry'; binding.pry   
+    split_braille_into_rows(braille).reduce({}) do |result, row|
         index = 0 
         strings = []
-        (braille.gsub("\n", "").length/6).times do 
-          strings << split_braille_into_rows(braille)[0].text.split("\n").map do |sub_row| 
+        (row.text.gsub("\n", "").length/6).times do 
+          strings << row.text.split("\n").map do |sub_row| 
             sub_row[index..(index + 1)]
+            # require 'pry'; binding.pry if poop.nil? 
+            # poop
           end.join
           index += 2
-        end
+        end 
         string_array = strings.map do |string|
           a = []
           a << string
@@ -137,8 +141,28 @@ class Translator
     end
   end
 
+  # def collection_of_braille_arrays_by_row(braille)    
+  #   split_braille_into_rows(braille).reduce({}) do |result, row| 
+  #     # require 'pry'; binding.pry
+  #       index = 0 
+  #       strings = []
+  #       (braille.gsub("\n", "").length/6).times do 
+  #         strings << split_braille_into_rows(braille)[0].text.split("\n").map do |sub_row| 
+  #           sub_row[index..(index + 1)]
+  #         end.join
+  #         index += 2
+  #       end
+  #       string_array = strings.map do |string|
+  #         a = []
+  #         a << string
+  #       end
+  #     result[row.text] = string_array
+  #     result
+  #   end
+  # end
+
   def translate_to_alpha(braille)
-    collection_of_braille_arrays_by_row(braille).values.flatten.map do |braille_str|
+    collection_of_multi_row_braille_into_arrays_by_row(braille).values.flatten.map do |braille_str|
       braille_to_alpha(braille_str)
     end.join
   end

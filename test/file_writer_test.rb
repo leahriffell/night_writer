@@ -12,12 +12,12 @@ class FileWriterTest < MiniTest::Test
   end
 
   def test_it_can_be_read 
-    assert_equal "", @file_writer.read_file
+    assert_equal "", @file_writer.read
   end
 
   def test_it_can_be_written_to
     @file_writer.write("Four for you, Glenn Coco!")
 
-    assert_equal "Four for you, Glenn Coco!", @file_writer.read_file
+    assert_equal "Four for you, Glenn Coco!", @file_writer.read
   end
 end

@@ -6,7 +6,7 @@ class FileWriter
     @output = File.new(@output_path, "w")
   end
 
-  def read_file 
+  def read
     File.read(@output)
   end
 

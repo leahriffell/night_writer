@@ -26,6 +26,10 @@ class Translator
     @output.write(read_input_file)
   end
 
+  def write_to_output(content)
+    @output.write(content)
+  end
+
   def terminal_message
     "Created '#{@output_path}' containing #{read_input_file.length} characters"
   end
@@ -148,11 +152,10 @@ class Translator
   end
 
   def translate_to_alpha_and_line_wrap(braille)
-    @output.write(translate_to_alpha(braille).scan(/.{1,40}/).join("\n"))
-    read_output_file
+    translate_to_alpha(braille).scan(/.{1,40}/).join("\n")
   end
 
   def translate_to_alpha_and_write_to_output
-
+    @output.write(translate_to_alpha_and_line_wrap(read_input_file))
   end
 end

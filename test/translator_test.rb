@@ -8,6 +8,10 @@ class TranslatorTest < MiniTest::Test
     ARGV.replace ['message.txt', 'braille.txt']
     @translator = Translator.new
     create_reusable_variables_for_testing
+    # @translator.write_to_output("")
+
+    # def write(content)
+    #   File.write(@output_path, content)
   end
 
   def create_reusable_variables_for_testing 
@@ -136,9 +140,10 @@ class TranslatorTest < MiniTest::Test
 
 
   def test_it_can_translate_to_alpha_and_write_to_output
-    skip
     @translator.stubs(:read_input_file).returns(@ruby_braille_formatted)
 
-    assert_equal @ruby_braille_formatted, @translator.test_it_can_translate_to_braille_and_write_to_output
+    @translator.translate_to_alpha_and_write_to_output
+
+    assert_equal @ruby_alpha_formatted, @translator.read_output_file
   end
 end

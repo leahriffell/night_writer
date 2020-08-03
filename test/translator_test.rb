@@ -22,7 +22,7 @@ class TranslatorTest < MiniTest::Test
   def test_it_can_write_input_to_output_file
     @translator.stubs(:read_input_file).returns("hola")
     @translator.write_input_to_output 
-    
+
     assert_equal "hola", @translator.read_output_file
   end
 
@@ -37,12 +37,12 @@ class TranslatorTest < MiniTest::Test
     assert_equal "0.00..", @translator.char_to_braille("h")
   end
 
-  def test_it_can_return_collection_of_braille_arrays
+  def test_it_can_return_collection_of_braille_translations
     assert_equal [["0.000."], ["0...00"]], @translator.collection_of_braille_translations("ru")
   end
 
-  def test_it_can_split_into_rows
-    assert_equal 2, @translator.split_into_rows("hello worldhello worldhello worldhello world").count
+  def test_it_can_split_alpha_into_rows
+    assert_equal 2, @translator.split_alpha_into_rows("hello worldhello worldhello worldhello world").count
   end
 
   def test_it_can_translate_multi_chars_with_braille_formatting
@@ -79,9 +79,43 @@ class TranslatorTest < MiniTest::Test
 
   # translation to alphabet and output related methods 
 
-  # def test_it_can_translate_single_alpha_to_braille
-  #   @translator.stubs(:read_input_file).returns("h")
+  def test_it_can_translate_single_alpha_to_braille
+    assert_equal "h", @translator.braille_to_alpha("0.00..")
+  end
 
-  #   assert_equal "0.\n00\n..", @translator.translate_and_write_to_output
-  # end
+  def test_it_can_split_braille_into_rows 
+    assert_equal 2, @translator.split_braille_into_rows("0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...").count
+  end
+
+  def test_it_can_return_collection_of_braille_arrays_by_row
+    # skip
+    #the braille below translates to "ru". The hash key is the braille as it's meant to print to file. 
+    assert_equal ({"0.0.\n00..\n0.00" => [["0.000."], ["0...00"]]}), @translator.collection_of_multi_row_braille_into_arrays_by_row("0.0.\n00..\n0.00")
+  end
+  
+  def test_it_can_return_long_collection_of_braille_arrays_by_row
+    skip
+    braille_arrays_by_row = {
+      "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0" => [["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"]],
+
+      "0.0.0.00\n.0000..0\n0.0.0..." => [["0..00."], ["0.000."], ["0.0.0."], ["00.0.."]]
+    }
+
+    assert_equal braille_arrays_by_row, @translator.collection_of_multi_row_braille_into_arrays_by_row("0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...")
+    #braille above is how it's printed, not just a string of all of them
+  end
+
+  def test_it_can_translate_and_output_multiple_alpha_to_braille
+    # skip
+    assert_equal "ruby", @translator.translate_to_alpha("0.0.0.00\n00..0..0\n0.00..00")
+  end
+
+
+  def test_it_can_translate_and_multiple_alpha_to_braille
+    assert_equal "hello worldhello worldhello worldhello world", @translator.translate_to_alpha("0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...")
+  end
+
+  def test_it_can_translate_to_braille_and_line_wrap
+    assert_equal "hello worldhello worldhello worldhello w\norld", @translator.translate_to_alpha_and_line_wrap("0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...")
+  end
 end

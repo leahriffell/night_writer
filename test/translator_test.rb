@@ -48,10 +48,9 @@ class TranslatorTest < MiniTest::Test
     # each new line char will count as 1 in the length ("ruby" has 2)
     assert_equal "Created 'braille.txt' containing 26 characters", @translator.terminal_message
 
-    ARGV.replace ['braille.txt', 'original_message.txt']
     @translator.stubs(:read_input_file).returns(@ruby_braille_formatted)
     @translator.translate_to_alpha_and_write_to_output
-    assert_equal "Created 'original_message.txt' containing 4 characters", @translator.terminal_message
+    assert_equal "Created 'braille.txt' containing 4 characters", @translator.terminal_message
   end
 
   # ---- translate single char ----

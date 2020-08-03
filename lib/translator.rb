@@ -1,13 +1,12 @@
-require './lib/file_reader'
-require './lib/file_writer'
+require './lib/file_manager'
 require './lib/dictionary'
 require './lib/cluster'
 
 class Translator
   def initialize
     @dictionary = Dictionary.new
-    @input = FileReader.new
-    @output = FileWriter.new
+    @input = FileManager.new(ARGV[0], "input")
+    @output = FileManager.new(ARGV[1], "output")
   end
 
   def read_input_file 
@@ -23,7 +22,7 @@ class Translator
   end
 
   def terminal_message
-    "Created '#{@output.output_path}' containing #{read_output_file.length} characters"
+    "Created '#{@output.file_path}' containing #{read_output_file.length} characters"
   end
 
    # ---- translate single char ----

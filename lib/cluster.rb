@@ -1,4 +1,4 @@
-class Row 
+class Cluster 
   attr_reader :text
   
   def initialize(text)

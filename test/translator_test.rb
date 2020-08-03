@@ -41,8 +41,8 @@ class TranslatorTest < MiniTest::Test
     assert_equal [["0.000."], ["0...00"]], @translator.collection_of_braille_translations("ru")
   end
 
-  def test_it_can_split_alpha_into_rows
-    assert_equal 2, @translator.split_alpha_into_rows("hello worldhello worldhello worldhello world").count
+  def test_it_can_split_alpha_into_clusters
+    assert_equal 2, @translator.split_alpha_into_clusters("hello worldhello worldhello worldhello world").count
   end
 
   def test_it_can_translate_multi_chars_with_braille_formatting
@@ -83,8 +83,8 @@ class TranslatorTest < MiniTest::Test
     assert_equal "h", @translator.braille_to_alpha("0.00..")
   end
 
-  def test_it_can_split_braille_into_rows 
-    assert_equal 2, @translator.split_braille_into_rows("0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...").count
+  def test_it_can_split_braille_into_clusters
+    assert_equal 2, @translator.split_braille_into_clusters("0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0...").count
   end
 
   def test_it_can_return_collection_of_braille_arrays_by_row

@@ -91,6 +91,8 @@ class TranslatorTest < MiniTest::Test
 
   def test_it_can_translate_to_braille
     assert_equal @four_hello_worlds_braille_formatted, @translator.translate_to_braille(@four_hello_worlds_alpha_plain)
+
+    assert_equal @abcs_braille_formatted, @translator.translate_to_braille(@abcs_alpha_formatted)
   end
 
   def test_it_can_translate_to_braille_and_write_to_output

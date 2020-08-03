@@ -54,7 +54,13 @@ class Translator
     end
   end
 
-  def determine_num_of_clusters(content)
+  def max_chars_per_cluster(content)
+    if is_braille?(content)
+      max_chars_per_cluster = 243
+    else 
+      max_chars_per_cluster = 40 
+    end
+    max_chars_per_cluster
   end 
 
   def split_alpha_into_clusters(alpha)

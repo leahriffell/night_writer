@@ -15,13 +15,13 @@ class TranslatorTest < MiniTest::Test
     @four_hello_worlds_alpha_formatted = "hello worldhello worldhello worldhello w\norld"
     @four_hello_worlds_braille_formatted = "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0\n0.0.0.00\n.0000..0\n0.0.0..."
 
-    @abcs_alpha_plain = "abcdefghijklmnopqrstuvwxyz"
+    @abcs_alpha_formatted = "abcdefghijklmnopqrstuvwxyz"
     @abcs_braille_formatted = "0.0.00000.00000..0.00.0.00000.00000..0.00.0..000000.\n..0....0.00.00000.00..0....0.00.00000.00..0.00...0.0\n....................0.0.0.0.0.0.0.0.0.0.0000.0000000"
 
-    @ruby_alpha_plain = "ruby"
+    @ruby_alpha_formatted = "ruby"
     @ruby_braille_formatted = "0.0.0.00\n00..0..0\n0.00..00"
 
-    @ru_alpha_plain = "ru"
+    @ru_alpha_formatted = "ru"
     @ru_alpha_braille_formatted = "0.0.\n00..\n0.00"
   end
 
@@ -56,14 +56,19 @@ class TranslatorTest < MiniTest::Test
   end
 
   def test_it_can_return_collection_of_braille_translations
-    assert_equal [["0.000."], ["0...00"]], @translator.collection_of_braille_translations(@ru_alpha_plain)
+    assert_equal [["0.000."], ["0...00"]], @translator.collection_of_braille_translations(@ru_alpha_formatted)
   end
 
   # ---- break into clusters ----
 
   def test_it_can_distinguish_alpha_from_braille
-    assert_equal false, @translator.is_braille?(@ruby_alpha_plain)
+    assert_equal false, @translator.is_braille?(@ruby_alpha_formatted)
     assert_equal true, @translator.is_braille?(@ruby_braille_formatted)
+  end
+
+  def test_it_can_determine_max_chars_per_cluser
+    assert_equal 40, @translator.max_chars_per_cluster(@ruby_alpha_formatted)
+    assert_equal 243, @translator.max_chars_per_cluster(@ruby_braille_formatted)
   end
 
   def test_it_can_split_alpha_into_clusters
@@ -76,13 +81,11 @@ class TranslatorTest < MiniTest::Test
 
   # -----------------------------
 
-
-
   def test_it_can_translate_multi_chars_with_braille_formatting
-    assert_equal @ruby_braille_formatted, @translator.render_rows_and_columns(@ruby_alpha_plain)
+    assert_equal @ruby_braille_formatted, @translator.render_rows_and_columns(@ruby_alpha_formatted)
 
     translation = @abcs_braille_formatted
-    assert_equal translation, @translator.render_rows_and_columns(@abcs_alpha_plain)
+    assert_equal translation, @translator.render_rows_and_columns(@abcs_alpha_formatted)
   end
 
 
@@ -99,7 +102,7 @@ class TranslatorTest < MiniTest::Test
   end
 
   def test_it_can_translate_and_output_multiple_char_to_braille
-    @translator.stubs(:read_input_file).returns(@ruby_alpha_plain)
+    @translator.stubs(:read_input_file).returns(@ruby_alpha_formatted)
 
     assert_equal @ruby_braille_formatted, @translator.translate_and_write_to_output
   end
@@ -133,7 +136,7 @@ class TranslatorTest < MiniTest::Test
 
   def test_it_can_translate_and_output_multiple_alpha_to_braille
     # skip
-    assert_equal @ruby_alpha_plain, @translator.translate_to_alpha(@ruby_braille_formatted)
+    assert_equal @ruby_alpha_formatted, @translator.translate_to_alpha(@ruby_braille_formatted)
   end
 
 

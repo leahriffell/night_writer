@@ -128,7 +128,7 @@ class TranslatorTest < MiniTest::Test
     assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha(@abcs_braille_formatted)
   end
 
-  def test_it_can_translate_to_braille_with_line_wrap_and_write_to_output
+  def test_it_can_translate_to_alpha_with_line_wrap_and_write_to_output
     assert_equal @four_hello_worlds_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@four_hello_worlds_braille_formatted)
 
     assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@abcs_braille_formatted)

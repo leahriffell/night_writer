@@ -37,10 +37,8 @@ class TranslatorTest < MiniTest::Test
     assert_instance_of String, @translator.read_input_file
   end
 
-  def test_it_can_write_input_to_output_file
-    @translator.stubs(:read_input_file).returns("hola")
-    @translator.write_input_to_output 
-
+  def test_it_can_write_to_output_file
+    @translator.write_to_output("hola")
     assert_equal "hola", @translator.read_output_file
   end
 
@@ -98,11 +96,11 @@ class TranslatorTest < MiniTest::Test
   def test_it_can_translate_to_braille_and_write_to_output
     @translator.stubs(:read_input_file).returns(@ruby_alpha_formatted)
 
-    assert_equal @ruby_braille_formatted, @translator.translate_and_write_to_output
+    assert_equal @ruby_braille_formatted, @translator.translate_to_braille_and_write_to_output
 
     @translator.stubs(:read_input_file).returns(@four_hello_worlds_alpha_plain)
 
-    assert_equal @four_hello_worlds_braille_formatted, @translator.translate_and_write_to_output
+    assert_equal @four_hello_worlds_braille_formatted, @translator.translate_to_braille_and_write_to_output
   end
 
   # ---- translate braille to alpha ---- 
@@ -128,9 +126,18 @@ class TranslatorTest < MiniTest::Test
     assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha(@abcs_braille_formatted)
   end
 
-  def test_it_can_translate_to_braille_with_line_wrap_and_write_to_output
+  def test_it_can_line_wrap_alpha
     assert_equal @four_hello_worlds_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@four_hello_worlds_braille_formatted)
 
     assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@abcs_braille_formatted)
+  end
+
+
+  def test_it_can_translate_to_alpha_and_write_to_output
+    @translator.stubs(:read_input_file).returns(@ruby_braille_formatted)
+
+    @translator.translate_to_alpha_and_write_to_output
+
+    assert_equal @ruby_alpha_formatted, @translator.read_output_file
   end
 end

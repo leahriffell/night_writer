@@ -22,8 +22,8 @@ class Translator
     @output.read
   end
 
-  def write_input_to_output
-    @output.write(read_input_file)
+  def write_to_output(content)
+    @output.write(content)
   end
 
   def terminal_message
@@ -115,8 +115,8 @@ class Translator
     result
   end
 
-  def translate_and_write_to_output
-    @output.write(translate_to_braille(read_input_file))
+  def translate_to_braille_and_write_to_output
+    write_to_output(translate_to_braille(read_input_file.gsub("\\n", "")))
     read_output_file
   end
 
@@ -148,7 +148,10 @@ class Translator
   end
 
   def translate_to_alpha_and_line_wrap(braille)
-    @output.write(translate_to_alpha(braille).scan(/.{1,40}/).join("\n"))
-    read_output_file
+    translate_to_alpha(braille).scan(/.{1,40}/).join("\n")
+  end
+
+  def translate_to_alpha_and_write_to_output
+    write_to_output(translate_to_alpha_and_line_wrap(read_input_file.gsub("\\n", "\n")))   
   end
 end

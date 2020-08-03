@@ -148,7 +148,8 @@ class Translator
     end.join
   end
 
-  def translate_and_line_wrap(braille)
-    translate_to_alpha(braille).scan(/.{1,40}/).join("\n")
+  def translate_to_alpha_and_line_wrap(braille)
+    @output.write(translate_to_alpha(braille).scan(/.{1,40}/).join("\n"))
+    read_output_file
   end
 end

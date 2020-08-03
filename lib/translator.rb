@@ -4,8 +4,6 @@ require './lib/dictionary'
 require './lib/cluster'
 
 class Translator
-  attr_reader :char_map
-
   def initialize
     @dictionary = Dictionary.new
     @output_path = ARGV[1]

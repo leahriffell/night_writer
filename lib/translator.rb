@@ -152,5 +152,7 @@ class Translator
     read_output_file
   end
 
-  # def tr
+  def translate_to_alpha_and_write_to_output
+
+  end
 end

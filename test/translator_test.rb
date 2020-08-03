@@ -98,11 +98,11 @@ class TranslatorTest < MiniTest::Test
   def test_it_can_translate_to_braille_and_write_to_output
     @translator.stubs(:read_input_file).returns(@ruby_alpha_formatted)
 
-    assert_equal @ruby_braille_formatted, @translator.translate_and_write_to_output
+    assert_equal @ruby_braille_formatted, @translator.translate_to_braille_and_write_to_output
 
     @translator.stubs(:read_input_file).returns(@four_hello_worlds_alpha_plain)
 
-    assert_equal @four_hello_worlds_braille_formatted, @translator.translate_and_write_to_output
+    assert_equal @four_hello_worlds_braille_formatted, @translator.translate_to_braille_and_write_to_output
   end
 
   # ---- translate braille to alpha ---- 
@@ -136,8 +136,9 @@ class TranslatorTest < MiniTest::Test
 
 
   def test_it_can_translate_to_alpha_and_write_to_output
-    assert_equal @four_hello_worlds_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@four_hello_worlds_braille_formatted)
+    skip
+    @translator.stubs(:read_input_file).returns(@ruby_braille_formatted)
 
-    assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@abcs_braille_formatted)
+    assert_equal @ruby_braille_formatted, @translator.test_it_can_translate_to_braille_and_write_to_output
   end
 end

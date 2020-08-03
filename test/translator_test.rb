@@ -50,9 +50,15 @@ class TranslatorTest < MiniTest::Test
     assert_equal "Created 'braille.txt' containing 20 characters", @translator.terminal_message
   end
 
-  def test_it_can_lookup_braille_for_character
-    assert_equal "0......", @translator.char_to_braille("a")
-    assert_equal "0.00..", @translator.char_to_braille("h")
+  def test_it_can_distinguish_alpha_from_braille
+    assert_equal false, @translator.is_braille?(@ruby_alpha_formatted)
+    assert_equal true, @translator.is_braille?(@ruby_braille_formatted)
+  end
+
+  def test_it_can_translate_single_char
+    assert_equal "0......", @translator.translate_char("a")
+    assert_equal "0.00..", @translator.translate_char("h")
+    assert_equal "h", @translator.translate_char("0.00..")
   end
 
   def test_it_can_return_collection_of_braille_translations
@@ -60,11 +66,6 @@ class TranslatorTest < MiniTest::Test
   end
 
   # ---- break into clusters ----
-
-  def test_it_can_distinguish_alpha_from_braille
-    assert_equal false, @translator.is_braille?(@ruby_alpha_formatted)
-    assert_equal true, @translator.is_braille?(@ruby_braille_formatted)
-  end
 
   def test_it_can_determine_max_chars_per_cluser
     assert_equal 40, @translator.max_chars_per_cluster(@ruby_alpha_formatted)
@@ -111,10 +112,6 @@ class TranslatorTest < MiniTest::Test
   end
 
   # translation to alphabet and output related methods 
-
-  def test_it_can_translate_single_alpha_to_braille
-    assert_equal "h", @translator.braille_to_alpha("0.00..")
-  end
 
   def test_it_can_return_collection_of_braille_arrays_by_row
     assert_equal ({@ru_alpha_braille_formatted => [["0.000."], ["0...00"]]}), @translator.collection_of_multi_row_braille_into_arrays_by_row(@ru_alpha_braille_formatted)

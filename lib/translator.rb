@@ -30,22 +30,6 @@ class Translator
     "Created '#{@output_path}' containing #{read_input_file.length} characters"
   end
 
-  def char_to_braille(char)
-    @dictionary.char_map[char]
-  end
-
-  def collection_of_braille_translations(chars)
-    collection = []
-    chars.chars.each do |char|
-      translation = []
-      translation << char_to_braille(char)
-      collection << translation
-    end
-    collection
-  end
-
-  # ---- break into clusters ----
-
   def is_braille?(content)
     if content.gsub("\n", "").chars.all? {|char| @dictionary.braille_characters.include?(char)}
       true
@@ -53,6 +37,26 @@ class Translator
       false
     end
   end
+
+  def translate_char(char)
+    if is_braille?(char)
+      @dictionary.char_map.invert[char]
+    else 
+      @dictionary.char_map[char]
+    end
+  end
+
+  def collection_of_braille_translations(alpha)
+    collection = []
+    alpha.chars.each do |alpha|
+      translation = []
+      translation << translate_char(alpha)
+      collection << translation
+    end
+    collection
+  end
+
+  # ---- break into clusters ----
 
   def max_chars_per_cluster(content)
     if is_braille?(content)
@@ -116,10 +120,6 @@ class Translator
 
   #  methods for converting braille to alpha 
 
-  def braille_to_alpha(braille)
-    @dictionary.char_map.invert[braille]
-  end
-
   def collection_of_multi_row_braille_into_arrays_by_row(braille) 
     split_into_clusters(braille).reduce({}) do |result, cluster|
         index = 0 
@@ -141,7 +141,7 @@ class Translator
 
   def translate_to_alpha(braille)
     collection_of_multi_row_braille_into_arrays_by_row(braille).values.flatten.map do |braille_str|
-      braille_to_alpha(braille_str)
+      translate_char(braille_str)
     end.join
   end
 

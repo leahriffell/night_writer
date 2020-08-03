@@ -116,7 +116,7 @@ class Translator
   end
 
   def translate_to_braille_and_write_to_output
-    @output.write(translate_to_braille(read_input_file))
+    write_to_output(translate_to_braille(read_input_file))
     read_output_file
   end
 
@@ -152,6 +152,6 @@ class Translator
   end
 
   def translate_to_alpha_and_write_to_output
-    @output.write(translate_to_alpha_and_line_wrap(read_input_file))
+    write_to_output(translate_to_alpha_and_line_wrap(read_input_file))
   end
 end

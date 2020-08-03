@@ -64,34 +64,18 @@ class Translator
     max_chars_per_cluster
   end 
 
-  def split_alpha_into_clusters(alpha)
-    num_clusters = (alpha.length/max_chars_per_cluster(alpha).to_f).ceil
+  def split_into_clusters(content)
+    num_clusters = (content.length/max_chars_per_cluster(content).to_f).ceil
     range = (1..num_clusters).to_a
     index = 0
     clusters = []
     range.each do |range|
       if range == num_clusters
-        clusters << Cluster.new(alpha[index..-1])
+        clusters << Cluster.new(content[index..-1])
       else 
-        clusters << Cluster.new(alpha[index..(index + max_chars_per_cluster(alpha) - 1)])
+        clusters << Cluster.new(content[index..(index + max_chars_per_cluster(content) - 1)])
       end
-      index += max_chars_per_cluster(alpha)
-    end
-    clusters
-  end
-
-  def split_braille_into_clusters(braille)
-    num_clusters = (braille.length/max_chars_per_cluster(braille).to_f).ceil
-    range = (1..num_clusters).to_a
-    index = 0
-    clusters = []
-    range.each do |range|
-      if range == num_clusters
-        clusters << Cluster.new(braille[index..-1])
-      else 
-        clusters << Cluster.new(braille[index..(index + max_chars_per_cluster(braille) - 1)])
-      end
-      index += max_chars_per_cluster(braille)
+      index += max_chars_per_cluster(content)
     end
     clusters
   end
@@ -112,11 +96,11 @@ class Translator
     "#{row_1}\n#{row_2}\n#{row_3}" 
   end 
 
-  def translate_to_braille(chars)  
+  def translate_to_braille(alpha)  
     result = ""
 
-    split_alpha_into_clusters(chars).each_with_index do |row, index| 
-      if (index != split_alpha_into_clusters(chars).length - 1) && (split_alpha_into_clusters(chars).length > 1)
+    split_into_clusters(alpha).each_with_index do |row, index| 
+      if (index != split_into_clusters(alpha).length - 1) && (split_into_clusters(alpha).length > 1)
         translation = render_rows_and_columns(row.text)
         result << "#{translation}\n"
       else 
@@ -139,7 +123,7 @@ class Translator
   end
 
   def collection_of_multi_row_braille_into_arrays_by_row(braille) 
-    split_braille_into_clusters(braille).reduce({}) do |result, cluster|
+    split_into_clusters(braille).reduce({}) do |result, cluster|
         index = 0 
         strings = []
         (cluster.text.gsub("\n", "").length/6).times do 

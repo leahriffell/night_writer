@@ -65,12 +65,12 @@ class Translator
   end 
 
   def split_into_clusters(content)
-    num_clusters = (content.length/max_chars_per_cluster(content).to_f).ceil
-    range = (1..num_clusters).to_a
-    index = 0
+    cluster_range = (1..(content.length/max_chars_per_cluster(content).to_f).ceil).to_a
+    
     clusters = []
-    range.each do |range|
-      if range == num_clusters
+    index = 0
+    cluster_range.each do |cluster|
+      if cluster == cluster_range.last
         clusters << Cluster.new(content[index..-1])
       else 
         clusters << Cluster.new(content[index..(index + max_chars_per_cluster(content) - 1)])
@@ -79,6 +79,22 @@ class Translator
     end
     clusters
   end
+
+  # def split_into_clusters(content)
+  #   num_clusters = (content.length/max_chars_per_cluster(content).to_f).ceil
+  #   range = (1..num_clusters).to_a
+  #   index = 0
+  #   clusters = []
+  #   range.each do |range|
+  #     if range == num_clusters
+  #       clusters << Cluster.new(content[index..-1])
+  #     else 
+  #       clusters << Cluster.new(content[index..(index + max_chars_per_cluster(content) - 1)])
+  #     end
+  #     index += max_chars_per_cluster(content)
+  #   end
+  #   clusters
+  # end
 
   # -----------------------------
 

@@ -6,8 +6,6 @@ require './lib/cluster'
 class Translator
   def initialize
     @dictionary = Dictionary.new
-    @output_path = ARGV[1]
-    @input_path = ARGV[0]
     @input = FileReader.new
     @output = FileWriter.new
   end
@@ -25,7 +23,7 @@ class Translator
   end
 
   def terminal_message
-    "Created '#{@output_path}' containing #{read_output_file.length} characters"
+    "Created '#{@output.output_path}' containing #{read_output_file.length} characters"
   end
 
    # ---- translate single char ----

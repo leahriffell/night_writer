@@ -1,5 +1,5 @@
 class FileWriter
-  attr_reader :output
+  attr_reader :output, :output_path
   
   def initialize
     @output_path = ARGV[1]

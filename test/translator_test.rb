@@ -48,14 +48,12 @@ class TranslatorTest < MiniTest::Test
     # each new line char will count as 1 in the length ("ruby" has 2)
     assert_equal "Created 'braille.txt' containing 26 characters", @translator.terminal_message
 
-    ARGV.replace ['braille.txt', 'original_message.txt']
     @translator.stubs(:read_input_file).returns(@ruby_braille_formatted)
     @translator.translate_to_alpha_and_write_to_output
-    assert_equal "Created 'original_message.txt' containing 4 characters", @translator.terminal_message
+    assert_equal "Created 'braille.txt' containing 4 characters", @translator.terminal_message
   end
 
   # ---- translate single char ----
-
   def test_it_can_distinguish_alpha_from_braille
     assert_equal false, @translator.is_braille?(@ruby_alpha_formatted)
     assert_equal true, @translator.is_braille?(@ruby_braille_formatted)
@@ -113,15 +111,11 @@ class TranslatorTest < MiniTest::Test
 
   def test_it_can_return_collection_of_braille_arrays_by_row
     assert_equal ({@ru_alpha_braille_formatted => [["0.000."], ["0...00"]]}), @translator.collection_of_braille_arrays_by_row(@ru_alpha_braille_formatted)
-  end
-  
-  def test_it_can_return_long_collection_of_braille_arrays_by_row
-    skip
-    braille_arrays_by_row = {
-      "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0" => [["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"]], "0.0.0.00\n.0000..0\n0.0.0..." => [["0..00."], ["0.000."], ["0.0.0."], ["00.0.."]]
-    }
 
-    assert_equal braille_arrays_by_row, @translator.collection_of_braille_arrays_by_row(@four_hello_worlds_braille_formatted)
+    # braille_arrays_by_row = {
+    #   "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0" => [["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"]], "0.0.0.00\n.0000..0\n0.0.0..." => [["0..00."], ["0.000."], ["0.0.0."], ["00.0.."]]
+    # }
+    # assert_equal braille_arrays_by_row, @translator.collection_of_braille_arrays_by_row(@four_hello_worlds_braille_formatted)
   end
 
   def test_it_can_translate_to_alpha

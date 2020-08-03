@@ -58,7 +58,6 @@ class Translator
   end 
 
   def split_alpha_into_clusters(alpha)
-    # require 'pry'; binding.pry
     num_clusters = (alpha.length/40.to_f).ceil
     range = (1..num_clusters).to_a
     max_chars_per_row = 40

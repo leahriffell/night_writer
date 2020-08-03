@@ -56,6 +56,7 @@ class Translator
 
   def max_chars_per_cluster(content)
     if is_braille?(content)
+      # each cluster/row will have three new line chars which each count as 1 in ruby. This is why it's changed to 243 below. 
       max_chars_per_cluster = 243
     else 
       max_chars_per_cluster = 40 
@@ -64,37 +65,33 @@ class Translator
   end 
 
   def split_alpha_into_clusters(alpha)
-    num_clusters = (alpha.length/40.to_f).ceil
+    num_clusters = (alpha.length/max_chars_per_cluster(alpha).to_f).ceil
     range = (1..num_clusters).to_a
-    max_chars_per_row = 40
     index = 0
     clusters = []
     range.each do |range|
       if range == num_clusters
         clusters << Cluster.new(alpha[index..-1])
       else 
-        clusters << Cluster.new(alpha[index..(index + max_chars_per_row - 1)])
+        clusters << Cluster.new(alpha[index..(index + max_chars_per_cluster(alpha) - 1)])
       end
-      index += max_chars_per_row
+      index += max_chars_per_cluster(alpha)
     end
     clusters
   end
 
   def split_braille_into_clusters(braille)
-    # num_rows = (braille.gsub("\n", "").length/240.to_f).ceil
-    # each cluster/row will have three new line chars which each count as 1 in ruby. This is why it's changed to 243 below. 
-    num_clusters = (braille.length/243.to_f).ceil
+    num_clusters = (braille.length/max_chars_per_cluster(braille).to_f).ceil
     range = (1..num_clusters).to_a
-    max_chars_per_cluster = 243
     index = 0
     clusters = []
     range.each do |range|
       if range == num_clusters
         clusters << Cluster.new(braille[index..-1])
       else 
-        clusters << Cluster.new(braille[index..(index + max_chars_per_cluster - 1)])
+        clusters << Cluster.new(braille[index..(index + max_chars_per_cluster(braille) - 1)])
       end
-      index += max_chars_per_cluster
+      index += max_chars_per_cluster(braille)
     end
     clusters
   end

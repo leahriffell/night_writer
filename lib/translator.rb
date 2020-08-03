@@ -1,7 +1,7 @@
 require './lib/file_reader'
 require './lib/file_writer'
 require './lib/dictionary'
-require './lib/row'
+require './lib/cluster'
 
 class Translator
   attr_reader :char_map
@@ -44,21 +44,21 @@ class Translator
     collection
   end
 
-  def split_alpha_into_rows(chars)
-    num_rows = (chars.length/40.to_f).ceil
-    range = (1..num_rows).to_a
+  def split_alpha_into_clusters(chars)
+    num_clusters = (chars.length/40.to_f).ceil
+    range = (1..num_clusters).to_a
     max_chars_per_row = 40
     index = 0
-    rows = []
+    clusters = []
     range.each do |range|
-      if range == num_rows
-        rows << Row.new(chars[index..-1])
+      if range == num_clusters
+        clusters << Cluster.new(chars[index..-1])
       else 
-        rows << Row.new(chars[index..(index + max_chars_per_row - 1)])
+        clusters << Cluster.new(chars[index..(index + max_chars_per_row - 1)])
       end
       index += max_chars_per_row
     end
-    rows
+    clusters
   end
 
   def render_rows_and_columns(chars)
@@ -78,8 +78,8 @@ class Translator
   def translate_to_braille(chars)  
     result = ""
 
-    split_alpha_into_rows(chars).each_with_index do |row, index| 
-      if (index != split_alpha_into_rows(chars).length - 1) && (split_alpha_into_rows(chars).length > 1)
+    split_alpha_into_clusters(chars).each_with_index do |row, index| 
+      if (index != split_alpha_into_clusters(chars).length - 1) && (split_alpha_into_clusters(chars).length > 1)
         translation = render_rows_and_columns(row.text)
         result << "#{translation}\n"
       else 
@@ -101,35 +101,32 @@ class Translator
     @dictionary.char_map.invert[braille]
   end
 
-  def split_braille_into_rows(braille)
+  def split_braille_into_clusters(braille)
     # num_rows = (braille.gsub("\n", "").length/240.to_f).ceil
     # each cluster/row will have three new line chars which each count as 1 in ruby. This is why it's changed to 243 below. 
-    num_rows = (braille.length/243.to_f).ceil
-    range = (1..num_rows).to_a
-    max_chars_per_row_grouping = 243
+    num_clusters = (braille.length/243.to_f).ceil
+    range = (1..num_clusters).to_a
+    max_chars_per_cluster = 243
     index = 0
-    rows = []
+    clusters = []
     range.each do |range|
-      if range == num_rows
-        rows << Row.new(braille[index..-1])
+      if range == num_clusters
+        clusters << Cluster.new(braille[index..-1])
       else 
-        rows << Row.new(braille[index..(index + max_chars_per_row_grouping - 1)])
+        clusters << Cluster.new(braille[index..(index + max_chars_per_cluster - 1)])
       end
-      index += max_chars_per_row_grouping
+      index += max_chars_per_cluster
     end
-    rows
+    clusters
   end
 
   def collection_of_multi_row_braille_into_arrays_by_row(braille) 
-    # require 'pry'; binding.pry   
-    split_braille_into_rows(braille).reduce({}) do |result, row|
+    split_braille_into_clusters(braille).reduce({}) do |result, cluster|
         index = 0 
         strings = []
-        (row.text.gsub("\n", "").length/6).times do 
-          strings << row.text.split("\n").map do |sub_row| 
+        (cluster.text.gsub("\n", "").length/6).times do 
+          strings << cluster.text.split("\n").map do |sub_row| 
             sub_row[index..(index + 1)]
-            # require 'pry'; binding.pry if poop.nil? 
-            # poop
           end.join
           index += 2
         end 
@@ -137,7 +134,7 @@ class Translator
           a = []
           a << string
         end
-      result[row.text] = string_array
+      result[cluster.text] = string_array
       result
     end
   end

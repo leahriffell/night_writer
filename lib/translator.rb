@@ -5,7 +5,7 @@ require './lib/cluster'
 class Translator
   def initialize
     @dictionary = Dictionary.new
-    @input = FileManager.new(ARGV[0], "input")
+    @input = FileManager.new(ARGV[0])
     @output = FileManager.new(ARGV[1], "output")
   end
 

@@ -4,7 +4,7 @@ require './lib/file_manager'
 class FileReaderTest < MiniTest::Test 
   def setup 
     ARGV.replace ['message.txt', 'braille.txt']
-    @input = FileManager.new(ARGV[0], "input")
+    @input = FileManager.new(ARGV[0])
     @output = FileManager.new(ARGV[1], "output")
   end
 

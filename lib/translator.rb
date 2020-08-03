@@ -152,6 +152,6 @@ class Translator
   end
 
   def translate_to_alpha_and_write_to_output
-    write_to_output(translate_to_alpha_and_line_wrap(read_input_file))
+    write_to_output(translate_to_alpha_and_line_wrap(read_input_file.gsub("\\n", "\n")))   
   end
 end

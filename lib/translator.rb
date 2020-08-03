@@ -131,8 +131,8 @@ class Translator
           index += 2
         end 
         string_array = strings.map do |string|
-          a = []
-          a << string
+          array = []
+          array << string
         end
       result[cluster.text] = string_array
       result

@@ -98,16 +98,20 @@ class Translator
     "#{row_1}\n#{row_2}\n#{row_3}" 
   end 
 
+  def last_cluster(alpha)
+    split_into_clusters(alpha).length
+  end
+
   def translate_to_braille(alpha)  
     result = ""
 
     split_into_clusters(alpha).each_with_index do |row, index| 
-      if (index != split_into_clusters(alpha).length - 1) && (split_into_clusters(alpha).length > 1)
-        translation = add_rows_and_columns(row.text)
-        result << "#{translation}\n"
-      else 
+      if index + 1 == last_cluster(alpha)
         translation = add_rows_and_columns(row.text)
         result << translation
+      else 
+        translation = add_rows_and_columns(row.text)
+        result << "#{translation}\n"
       end
     end
     result

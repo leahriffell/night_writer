@@ -72,6 +72,10 @@ class TranslatorTest < MiniTest::Test
     assert_equal 243, @translator.max_chars_per_cluster(@ruby_braille_formatted)
   end
 
+  def test_it_can_return_last_cluster_number 
+    assert_equal 2, @translator.last_cluster(@four_hello_worlds_alpha_plain)
+  end
+
   def test_it_can_split_into_clusters
     assert_equal 2, @translator.split_into_clusters(@four_hello_worlds_alpha_plain).count
     assert_equal 2, @translator.split_into_clusters(@four_hello_worlds_braille_formatted).count

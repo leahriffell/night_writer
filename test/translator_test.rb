@@ -58,7 +58,7 @@ class TranslatorTest < MiniTest::Test
   end
 
   def test_it_can_translate_single_char
-    assert_equal "0......", @translator.translate_char("a")
+    assert_equal "0.....", @translator.translate_char("a")
     assert_equal "0.00..", @translator.translate_char("h")
     assert_equal "h", @translator.translate_char("0.00..")
   end
@@ -91,6 +91,8 @@ class TranslatorTest < MiniTest::Test
 
   def test_it_can_translate_to_braille
     assert_equal @four_hello_worlds_braille_formatted, @translator.translate_to_braille(@four_hello_worlds_alpha_plain)
+
+    assert_equal @abcs_braille_formatted, @translator.translate_to_braille(@abcs_alpha_formatted)
   end
 
   def test_it_can_translate_to_braille_and_write_to_output
@@ -123,12 +125,12 @@ class TranslatorTest < MiniTest::Test
     
     assert_equal @four_hello_worlds_alpha_plain, @translator.translate_to_alpha(@four_hello_worlds_braille_formatted)
     
-    # assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha(@abcs_braille_formatted)
+    assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha(@abcs_braille_formatted)
   end
 
   def test_it_can_translate_to_braille_with_line_wrap_and_write_to_output
     assert_equal @four_hello_worlds_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@four_hello_worlds_braille_formatted)
 
-    # assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@abcs_braille_formatted)
+    assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@abcs_braille_formatted)
   end
 end

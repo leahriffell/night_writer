@@ -8,7 +8,7 @@ class Dictionary
 
   def map_character_to_braille
     @char_map[" "] = "......"
-    @char_map["a"] = "0......"
+    @char_map["a"] = "0....."
     @char_map["b"] = "0.0..."
     @char_map["c"] = "00...."
     @char_map["d"] = "00.0.."

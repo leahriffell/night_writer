@@ -15,4 +15,8 @@ class DictionaryTest < MiniTest::Test
     assert_equal "0.00..", @dictionary.char_map["h"]
     assert_equal "......", @dictionary.char_map[" "]
   end
+
+  def test_it_can_return_chars_used_within_braille
+    assert_equal ["0", "."], @dictionary.braille_characters
+  end
 end

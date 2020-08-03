@@ -8,10 +8,6 @@ class TranslatorTest < MiniTest::Test
     ARGV.replace ['message.txt', 'braille.txt']
     @translator = Translator.new
     create_reusable_variables_for_testing
-    # @translator.write_to_output("")
-
-    # def write(content)
-    #   File.write(@output_path, content)
   end
 
   def create_reusable_variables_for_testing 
@@ -41,10 +37,8 @@ class TranslatorTest < MiniTest::Test
     assert_instance_of String, @translator.read_input_file
   end
 
-  def test_it_can_write_input_to_output_file
-    @translator.stubs(:read_input_file).returns("hola")
-    @translator.write_input_to_output 
-
+  def test_it_can_write_to_output_file
+    @translator.write_to_output("hola")
     assert_equal "hola", @translator.read_output_file
   end
 

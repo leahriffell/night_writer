@@ -22,10 +22,6 @@ class Translator
     @output.read
   end
 
-  def write_input_to_output
-    @output.write(read_input_file)
-  end
-
   def write_to_output(content)
     @output.write(content)
   end

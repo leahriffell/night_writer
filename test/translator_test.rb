@@ -50,6 +50,8 @@ class TranslatorTest < MiniTest::Test
     assert_equal "Created 'braille.txt' containing 20 characters", @translator.terminal_message
   end
 
+  # ---- translate single char ----
+
   def test_it_can_distinguish_alpha_from_braille
     assert_equal false, @translator.is_braille?(@ruby_alpha_formatted)
     assert_equal true, @translator.is_braille?(@ruby_braille_formatted)
@@ -59,10 +61,6 @@ class TranslatorTest < MiniTest::Test
     assert_equal "0......", @translator.translate_char("a")
     assert_equal "0.00..", @translator.translate_char("h")
     assert_equal "h", @translator.translate_char("0.00..")
-  end
-
-  def test_it_can_return_collection_of_braille_translations
-    assert_equal [["0.000."], ["0...00"]], @translator.collection_of_braille_translations(@ru_alpha_formatted)
   end
 
   # ---- break into clusters ----
@@ -77,41 +75,35 @@ class TranslatorTest < MiniTest::Test
     assert_equal 2, @translator.split_into_clusters(@four_hello_worlds_braille_formatted).count
   end
 
-  # -----------------------------
+  # ---- translate alpha to braille ----
+  
+  def test_it_can_return_collection_of_braille_translations
+    assert_equal [["0.000."], ["0...00"]], @translator.collection_of_braille_translations(@ru_alpha_formatted)
+  end
 
-  def test_it_can_translate_multi_chars_with_braille_formatting
-    assert_equal @ruby_braille_formatted, @translator.render_rows_and_columns(@ruby_alpha_formatted)
+  def test_it_can_add_to_rows_and_columns_to_translated_braille
+    assert_equal @ruby_braille_formatted, @translator.add_rows_and_columns(@ruby_alpha_formatted)
 
     translation = @abcs_braille_formatted
-    assert_equal translation, @translator.render_rows_and_columns(@abcs_alpha_formatted)
+    assert_equal translation, @translator.add_rows_and_columns(@abcs_alpha_formatted)
   end
 
 
-  def test_it_can_translate_and_output_to_braille
+  def test_it_can_translate_to_braille
     assert_equal @four_hello_worlds_braille_formatted, @translator.translate_to_braille(@four_hello_worlds_alpha_plain)
   end
 
-  # translation to braille and output related methods 
-
-  def test_it_can_translate_and_output_single_char_to_braille
-    @translator.stubs(:read_input_file).returns("h")
-
-    assert_equal "0.\n00\n..", @translator.translate_and_write_to_output
-  end
-
-  def test_it_can_translate_and_output_multiple_char_to_braille
+  def test_it_can_translate_to_braille_and_write_to_output
     @translator.stubs(:read_input_file).returns(@ruby_alpha_formatted)
 
     assert_equal @ruby_braille_formatted, @translator.translate_and_write_to_output
-  end
 
-  def test_it_can_translate_and_output_multi_rows_to_braille
     @translator.stubs(:read_input_file).returns(@four_hello_worlds_alpha_plain)
 
     assert_equal @four_hello_worlds_braille_formatted, @translator.translate_and_write_to_output
   end
 
-  # translation to alphabet and output related methods 
+  # ---- translate braille to alpha ---- 
 
   def test_it_can_return_collection_of_braille_arrays_by_row
     assert_equal ({@ru_alpha_braille_formatted => [["0.000."], ["0...00"]]}), @translator.collection_of_braille_arrays_by_row(@ru_alpha_braille_formatted)
@@ -126,7 +118,7 @@ class TranslatorTest < MiniTest::Test
     assert_equal braille_arrays_by_row, @translator.collection_of_braille_arrays_by_row(@four_hello_worlds_braille_formatted)
   end
 
-  def test_it_can_translate_multiple_alpha_to_braille
+  def test_it_can_translate_to_alpha
     assert_equal @ruby_alpha_formatted, @translator.translate_to_alpha(@ruby_braille_formatted)
     
     assert_equal @four_hello_worlds_alpha_plain, @translator.translate_to_alpha(@four_hello_worlds_braille_formatted)
@@ -134,7 +126,7 @@ class TranslatorTest < MiniTest::Test
     # assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha(@abcs_braille_formatted)
   end
 
-  def test_it_can_translate_to_braille_and_line_wrap
+  def test_it_can_translate_to_braille_with_line_wrap_and_write_to_output
     assert_equal @four_hello_worlds_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@four_hello_worlds_braille_formatted)
 
     # assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@abcs_braille_formatted)

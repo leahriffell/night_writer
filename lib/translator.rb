@@ -30,6 +30,8 @@ class Translator
     "Created '#{@output_path}' containing #{read_input_file.length} characters"
   end
 
+   # ---- translate single char ----
+
   def is_braille?(content)
     if content.gsub("\n", "").chars.all? {|char| @dictionary.braille_characters.include?(char)}
       true
@@ -44,16 +46,6 @@ class Translator
     else 
       @dictionary.char_map[char]
     end
-  end
-
-  def collection_of_braille_translations(alpha)
-    collection = []
-    alpha.chars.each do |alpha|
-      translation = []
-      translation << translate_char(alpha)
-      collection << translation
-    end
-    collection
   end
 
   # ---- break into clusters ----
@@ -82,9 +74,19 @@ class Translator
     end
   end
 
-  # -----------------------------
+  # ---- translate alpha to braille ----
 
-  def render_rows_and_columns(chars)
+  def collection_of_braille_translations(alpha)
+    collection = []
+    alpha.chars.each do |alpha|
+      translation = []
+      translation << translate_char(alpha)
+      collection << translation
+    end
+    collection
+  end
+
+  def add_rows_and_columns(chars)
     row_1 = ""
     row_2 = ""
     row_3 = ""
@@ -103,10 +105,10 @@ class Translator
 
     split_into_clusters(alpha).each_with_index do |row, index| 
       if (index != split_into_clusters(alpha).length - 1) && (split_into_clusters(alpha).length > 1)
-        translation = render_rows_and_columns(row.text)
+        translation = add_rows_and_columns(row.text)
         result << "#{translation}\n"
       else 
-        translation = render_rows_and_columns(row.text)
+        translation = add_rows_and_columns(row.text)
         result << translation
       end
     end
@@ -118,7 +120,7 @@ class Translator
     read_output_file
   end
 
-  #  methods for converting braille to alpha 
+  # ---- translate braille to alpha ----
 
   def collection_of_braille_arrays_by_row(braille) 
     split_into_clusters(braille).reduce({}) do |result, cluster|

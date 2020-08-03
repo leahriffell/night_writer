@@ -27,7 +27,7 @@ class Translator
   end
 
   def terminal_message
-    "Created '#{@output_path}' containing #{read_input_file.length} characters"
+    "Created '#{@output_path}' containing #{read_output_file.length} characters"
   end
 
    # ---- translate single char ----

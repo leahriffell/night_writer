@@ -6,8 +6,6 @@ require './lib/cluster'
 class Translator
   def initialize
     @dictionary = Dictionary.new
-    @output_path = ARGV[1]
-    @input_path = ARGV[0]
     @input = FileReader.new
     @output = FileWriter.new
   end
@@ -25,7 +23,7 @@ class Translator
   end
 
   def terminal_message
-    "Created '#{@output_path}' containing #{read_output_file.length} characters"
+    "Created '#{@output.output_path}' containing #{read_output_file.length} characters"
   end
 
    # ---- translate single char ----
@@ -98,16 +96,20 @@ class Translator
     "#{row_1}\n#{row_2}\n#{row_3}" 
   end 
 
+  def last_cluster(alpha)
+    split_into_clusters(alpha).length
+  end
+
   def translate_to_braille(alpha)  
     result = ""
 
     split_into_clusters(alpha).each_with_index do |row, index| 
-      if (index != split_into_clusters(alpha).length - 1) && (split_into_clusters(alpha).length > 1)
-        translation = add_rows_and_columns(row.text)
-        result << "#{translation}\n"
-      else 
+      if index + 1 == last_cluster(alpha)
         translation = add_rows_and_columns(row.text)
         result << translation
+      else 
+        translation = add_rows_and_columns(row.text)
+        result << "#{translation}\n"
       end
     end
     result
@@ -115,7 +117,6 @@ class Translator
 
   def translate_to_braille_and_write_to_output
     write_to_output(translate_to_braille(read_input_file.gsub("\\n", "")))
-    read_output_file
   end
 
   # ---- translate braille to alpha ----
@@ -123,18 +124,18 @@ class Translator
   def collection_of_braille_arrays_by_row(braille) 
     split_into_clusters(braille).reduce({}) do |result, cluster|
         index = 0 
-        strings = []
+        all_strings = []
+        
         (cluster.text.gsub("\n", "").length/6).times do 
-          strings << cluster.text.split("\n").map do |sub_row| 
+          braille_char = []
+          braille_char << cluster.text.split("\n").map do |sub_row| 
             sub_row[index..(index + 1)]
           end.join
+          all_strings << braille_char
           index += 2
         end 
-        string_array = strings.map do |string|
-          a = []
-          a << string
-        end
-      result[cluster.text] = string_array
+        
+      result[cluster.text] = all_strings
       result
     end
   end

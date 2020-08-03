@@ -56,7 +56,6 @@ class Translator
 
   def max_chars_per_cluster(content)
     if is_braille?(content)
-      # each cluster/row will have three new line chars which each count as 1 in ruby. This is why it's changed to 243 below. 
       max_chars_per_cluster = 243
     else 
       max_chars_per_cluster = 40 
@@ -66,35 +65,18 @@ class Translator
 
   def split_into_clusters(content)
     cluster_range = (1..(content.length/max_chars_per_cluster(content).to_f).ceil).to_a
-    
-    clusters = []
+
     index = 0
-    cluster_range.each do |cluster|
+    cluster_range.reduce([]) do |result, cluster|
       if cluster == cluster_range.last
-        clusters << Cluster.new(content[index..-1])
+        result << Cluster.new(content[index..-1])
       else 
-        clusters << Cluster.new(content[index..(index + max_chars_per_cluster(content) - 1)])
+        result << Cluster.new(content[index..(index + max_chars_per_cluster(content) - 1)])
       end
       index += max_chars_per_cluster(content)
+      result
     end
-    clusters
   end
-
-  # def split_into_clusters(content)
-  #   num_clusters = (content.length/max_chars_per_cluster(content).to_f).ceil
-  #   range = (1..num_clusters).to_a
-  #   index = 0
-  #   clusters = []
-  #   range.each do |range|
-  #     if range == num_clusters
-  #       clusters << Cluster.new(content[index..-1])
-  #     else 
-  #       clusters << Cluster.new(content[index..(index + max_chars_per_cluster(content) - 1)])
-  #     end
-  #     index += max_chars_per_cluster(content)
-  #   end
-  #   clusters
-  # end
 
   # -----------------------------
 

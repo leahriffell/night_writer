@@ -18,15 +18,15 @@ class FileReaderTest < MiniTest::Test
   end
 
   def test_it_can_be_written_to
-    assert_equal 25, @input.write("Four for you, Glenn Coco!")
-    assert_equal 27, @output.write("There's a snake in my boot!")
+    assert_equal 23, @input.write("four for you glenn coco")
+    assert_equal 11, @output.write("free barron")
   end
 
   def test_it_can_be_read 
-    @input.write("Four for you, Glenn Coco!")
-    assert_equal "Four for you, Glenn Coco!", @input.read
+    @input.write("four for you glenn coco")
+    assert_equal "four for you glenn coco", @input.read
 
-    @output.write("There's a snake in my boot!")
-    assert_equal "There's a snake in my boot!",@output.read
+    @output.write("free barron")
+    assert_equal "free barron",@output.read
   end
 end

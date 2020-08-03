@@ -119,7 +119,6 @@ class Translator
 
   def translate_to_braille_and_write_to_output
     write_to_output(translate_to_braille(read_input_file.gsub("\\n", "")))
-    read_output_file
   end
 
   # ---- translate braille to alpha ----

@@ -120,7 +120,7 @@ class Translator
 
   #  methods for converting braille to alpha 
 
-  def collection_of_multi_row_braille_into_arrays_by_row(braille) 
+  def collection_of_braille_arrays_by_row(braille) 
     split_into_clusters(braille).reduce({}) do |result, cluster|
         index = 0 
         strings = []
@@ -140,7 +140,7 @@ class Translator
   end
 
   def translate_to_alpha(braille)
-    collection_of_multi_row_braille_into_arrays_by_row(braille).values.flatten.map do |braille_str|
+    collection_of_braille_arrays_by_row(braille).values.flatten.map do |braille_str|
       translate_char(braille_str)
     end.join
   end

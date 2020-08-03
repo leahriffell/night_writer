@@ -114,7 +114,7 @@ class TranslatorTest < MiniTest::Test
   # translation to alphabet and output related methods 
 
   def test_it_can_return_collection_of_braille_arrays_by_row
-    assert_equal ({@ru_alpha_braille_formatted => [["0.000."], ["0...00"]]}), @translator.collection_of_multi_row_braille_into_arrays_by_row(@ru_alpha_braille_formatted)
+    assert_equal ({@ru_alpha_braille_formatted => [["0.000."], ["0...00"]]}), @translator.collection_of_braille_arrays_by_row(@ru_alpha_braille_formatted)
   end
   
   def test_it_can_return_long_collection_of_braille_arrays_by_row
@@ -125,7 +125,7 @@ class TranslatorTest < MiniTest::Test
       "0.0.0.00\n.0000..0\n0.0.0..." => [["0..00."], ["0.000."], ["0.0.0."], ["00.0.."]]
     }
 
-    assert_equal braille_arrays_by_row, @translator.collection_of_multi_row_braille_into_arrays_by_row(@four_hello_worlds_braille_formatted)
+    assert_equal braille_arrays_by_row, @translator.collection_of_braille_arrays_by_row(@four_hello_worlds_braille_formatted)
   end
 
   def test_it_can_translate_and_output_multiple_alpha_to_braille

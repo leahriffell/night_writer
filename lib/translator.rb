@@ -115,7 +115,7 @@ class Translator
     result
   end
 
-  def translate_and_write_to_output
+  def translate_to_braille_and_write_to_output
     @output.write(translate_to_braille(read_input_file))
     read_output_file
   end
@@ -151,4 +151,6 @@ class Translator
     @output.write(translate_to_alpha(braille).scan(/.{1,40}/).join("\n"))
     read_output_file
   end
+
+  # def tr
 end

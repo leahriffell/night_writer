@@ -44,22 +44,57 @@ class Translator
     collection
   end
 
-  def split_alpha_into_clusters(chars)
-    num_clusters = (chars.length/40.to_f).ceil
+  # ---- break into clusters ----
+
+  def is_braille?(content)
+    if content.gsub("\n", "").chars.all? {|char| @dictionary.braille_characters.include?(char)}
+      true
+    else content.gsub("\n", "").chars.all? {|char| @dictionary.char_map.keys.include?(char)}
+      false
+    end
+  end
+
+  def determine_num_of_clusters(content)
+  end 
+
+  def split_alpha_into_clusters(alpha)
+    # require 'pry'; binding.pry
+    num_clusters = (alpha.length/40.to_f).ceil
     range = (1..num_clusters).to_a
     max_chars_per_row = 40
     index = 0
     clusters = []
     range.each do |range|
       if range == num_clusters
-        clusters << Cluster.new(chars[index..-1])
+        clusters << Cluster.new(alpha[index..-1])
       else 
-        clusters << Cluster.new(chars[index..(index + max_chars_per_row - 1)])
+        clusters << Cluster.new(alpha[index..(index + max_chars_per_row - 1)])
       end
       index += max_chars_per_row
     end
     clusters
   end
+
+  def split_braille_into_clusters(braille)
+    # num_rows = (braille.gsub("\n", "").length/240.to_f).ceil
+    # each cluster/row will have three new line chars which each count as 1 in ruby. This is why it's changed to 243 below. 
+    num_clusters = (braille.length/243.to_f).ceil
+    range = (1..num_clusters).to_a
+    max_chars_per_cluster = 243
+    index = 0
+    clusters = []
+    range.each do |range|
+      if range == num_clusters
+        clusters << Cluster.new(braille[index..-1])
+      else 
+        clusters << Cluster.new(braille[index..(index + max_chars_per_cluster - 1)])
+      end
+      index += max_chars_per_cluster
+    end
+    clusters
+  end
+
+  # -----------------------------
 
   def render_rows_and_columns(chars)
     row_1 = ""
@@ -99,25 +134,6 @@ class Translator
 
   def braille_to_alpha(braille)
     @dictionary.char_map.invert[braille]
-  end
-
-  def split_braille_into_clusters(braille)
-    # num_rows = (braille.gsub("\n", "").length/240.to_f).ceil
-    # each cluster/row will have three new line chars which each count as 1 in ruby. This is why it's changed to 243 below. 
-    num_clusters = (braille.length/243.to_f).ceil
-    range = (1..num_clusters).to_a
-    max_chars_per_cluster = 243
-    index = 0
-    clusters = []
-    range.each do |range|
-      if range == num_clusters
-        clusters << Cluster.new(braille[index..-1])
-      else 
-        clusters << Cluster.new(braille[index..(index + max_chars_per_cluster - 1)])
-      end
-      index += max_chars_per_cluster
-    end
-    clusters
   end
 
   def collection_of_multi_row_braille_into_arrays_by_row(braille) 

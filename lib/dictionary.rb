@@ -35,4 +35,8 @@ class Dictionary
     @char_map["y"] = "00.000"
     @char_map["z"] = "0..000"
   end
+
+  def braille_characters
+    ["0", "."]
+  end
 end

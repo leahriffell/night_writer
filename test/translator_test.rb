@@ -113,7 +113,6 @@ class TranslatorTest < MiniTest::Test
     assert_equal @abcs_alpha_formatted, @translator.translate_to_alpha_and_line_wrap(@abcs_braille_formatted)
   end
 
-
   def test_it_can_translate_to_alpha_and_write_to_output
     @translator.stubs(:read_input_file).returns(@ruby_braille_formatted)
     @translator.translate_to_alpha_and_write_to_output

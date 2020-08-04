@@ -1,7 +1,10 @@
 require './lib/dictionary'
 require './lib/cluster'
+require './lib/identifiable'
 
 class Formatter
+  include Identifiable 
+
   def initialize
     @dictionary = Dictionary.new
   end

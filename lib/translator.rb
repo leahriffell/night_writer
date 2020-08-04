@@ -1,9 +1,11 @@
 require './lib/file_manager'
 require './lib/dictionary'
-require './lib/cluster'
 require './lib/formatter'
+require './lib/identifiable'
 
 class Translator
+  include Identifiable 
+
   def initialize
     @input = FileManager.new(ARGV[0])
     @output = FileManager.new(ARGV[1], "output")
@@ -28,18 +30,6 @@ class Translator
   end
 
    # ---- translate single char ----
-
-  def individual_chars(content)
-    content.gsub("\n", "").chars
-  end
-
-  def is_braille?(content)
-    if individual_chars(content).all? {|char| @dictionary.braille_characters.include?(char)}
-      true
-    else individual_chars(content).all? {|char| @dictionary.char_map.keys.include?(char)}
-      false
-    end
-  end
 
   def translate_char(char)
     if is_braille?(char)

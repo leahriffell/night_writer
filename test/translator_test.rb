@@ -1,7 +1,6 @@
 require './test/helper_test'
 require './lib/translator'
 
-
 class TranslatorTest < MiniTest::Test 
 
   def setup 
@@ -70,22 +69,6 @@ class TranslatorTest < MiniTest::Test
     assert_equal "h", @translator.translate_char("0.00..")
   end
 
-  # ---- break into clusters ----
-
-  def test_it_can_determine_max_chars_per_cluser
-    assert_equal 40, @translator.max_chars_per_cluster(@ruby_alpha_formatted)
-    assert_equal 243, @translator.max_chars_per_cluster(@ruby_braille_formatted)
-  end
-
-  def test_it_can_return_last_cluster_number 
-    assert_equal 2, @translator.last_cluster(@four_hello_worlds_alpha_plain)
-  end
-
-  def test_it_can_split_into_clusters
-    assert_equal 2, @translator.split_into_clusters(@four_hello_worlds_alpha_plain).count
-    assert_equal 2, @translator.split_into_clusters(@four_hello_worlds_braille_formatted).count
-  end
-
   # ---- translate alpha to braille ----
   
   def test_it_can_return_collection_of_braille_translations
@@ -119,15 +102,6 @@ class TranslatorTest < MiniTest::Test
   end
 
   # ---- translate braille to alpha ---- 
-
-  def test_it_can_return_collection_of_braille_arrays_by_row
-    assert_equal ({@ru_alpha_braille_formatted => [["0.000."], ["0...00"]]}), @translator.collection_of_braille_arrays_by_row(@ru_alpha_braille_formatted)
-
-    # braille_arrays_by_row = {
-    #   "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0" => [["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"]], "0.0.0.00\n.0000..0\n0.0.0..." => [["0..00."], ["0.000."], ["0.0.0."], ["00.0.."]]
-    # }
-    # assert_equal braille_arrays_by_row, @translator.collection_of_braille_arrays_by_row(@four_hello_worlds_braille_formatted)
-  end
 
   def test_it_can_translate_to_alpha
     assert_equal @ruby_alpha_formatted, @translator.translate_to_alpha(@ruby_braille_formatted)

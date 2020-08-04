@@ -1,12 +1,14 @@
 require './lib/file_manager'
 require './lib/dictionary'
 require './lib/cluster'
+require './lib/formatter'
 
 class Translator
   def initialize
-    @dictionary = Dictionary.new
     @input = FileManager.new(ARGV[0])
     @output = FileManager.new(ARGV[1], "output")
+    @dictionary = Dictionary.new
+    @formatter = Formatter.new
   end
 
   def read_input_file 
@@ -47,32 +49,6 @@ class Translator
     end
   end
 
-  # ---- break into clusters ----
-
-  def max_chars_per_cluster(content)
-    if is_braille?(content)
-      max_chars_per_cluster = 243
-    else 
-      max_chars_per_cluster = 40 
-    end
-    max_chars_per_cluster
-  end 
-
-  def split_into_clusters(content)
-    cluster_range = (1..(content.length/max_chars_per_cluster(content).to_f).ceil).to_a
-
-    index = 0
-    cluster_range.reduce([]) do |result, cluster|
-      if cluster == cluster_range.last
-        result << Cluster.new(content[index..-1])
-      else 
-        result << Cluster.new(content[index..(index + max_chars_per_cluster(content) - 1)])
-      end
-      index += max_chars_per_cluster(content)
-      result
-    end
-  end
-
   # ---- translate alpha to braille ----
 
   def collection_of_braille_translations(alpha)
@@ -99,15 +75,11 @@ class Translator
     "#{row_1}\n#{row_2}\n#{row_3}" 
   end 
 
-  def last_cluster(alpha)
-    split_into_clusters(alpha).length
-  end
-
   def translate_to_braille(alpha)  
     result = ""
 
-    split_into_clusters(alpha).each_with_index do |row, index| 
-      if index + 1 == last_cluster(alpha)
+    @formatter.split_into_clusters(alpha).each_with_index do |row, index| 
+      if index + 1 == @formatter.last_cluster(alpha)
         translation = add_rows_and_columns(row.text)
         result << translation
       else 
@@ -124,33 +96,14 @@ class Translator
 
   # ---- translate braille to alpha ----
 
-  def collection_of_braille_arrays_by_row(braille) 
-    split_into_clusters(braille).reduce({}) do |result, cluster|
-        index = 0 
-        all_strings = []
-        
-        (cluster.text.gsub("\n", "").length/6).times do 
-          braille_char = []
-          braille_char << cluster.text.split("\n").map do |sub_row| 
-            sub_row[index..(index + 1)]
-          end.join
-          all_strings << braille_char
-          index += 2
-        end 
-        
-      result[cluster.text] = all_strings
-      result
-    end
-  end
-
   def translate_to_alpha(braille)
-    collection_of_braille_arrays_by_row(braille).values.flatten.map do |braille_str|
+    @formatter.braille_arrays_by_cluster_by_subrow(braille).values.flatten.map do |braille_str|
       translate_char(braille_str)
     end.join
   end
 
   def translate_to_alpha_and_line_wrap(braille)
-    translate_to_alpha(braille).scan(/.{1,40}/).join("\n")
+    @formatter.line_wrap_alpha(translate_to_alpha(braille))
   end
 
   def translate_to_alpha_and_write_to_output

@@ -28,7 +28,7 @@ class Formatter
   def last_cluster(alpha)
     split_into_clusters(alpha).length
   end
-  
+
   def split_into_clusters(content)
     cluster_range = (1..(content.length/max_chars_per_cluster(content).to_f).ceil).to_a
 

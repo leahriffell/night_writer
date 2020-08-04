@@ -1,7 +1,6 @@
 require './test/helper_test'
 require './lib/translator'
 
-
 class TranslatorTest < MiniTest::Test 
 
   def setup 
@@ -54,6 +53,7 @@ class TranslatorTest < MiniTest::Test
   end
 
   # ---- translate single char ----
+
   def test_it_can_distinguish_alpha_from_braille
     assert_equal false, @translator.is_braille?(@ruby_alpha_formatted)
     assert_equal true, @translator.is_braille?(@ruby_braille_formatted)
@@ -63,22 +63,6 @@ class TranslatorTest < MiniTest::Test
     assert_equal "0.....", @translator.translate_char("a")
     assert_equal "0.00..", @translator.translate_char("h")
     assert_equal "h", @translator.translate_char("0.00..")
-  end
-
-  # ---- break into clusters ----
-
-  def test_it_can_determine_max_chars_per_cluser
-    assert_equal 40, @translator.max_chars_per_cluster(@ruby_alpha_formatted)
-    assert_equal 243, @translator.max_chars_per_cluster(@ruby_braille_formatted)
-  end
-
-  def test_it_can_return_last_cluster_number 
-    assert_equal 2, @translator.last_cluster(@four_hello_worlds_alpha_plain)
-  end
-
-  def test_it_can_split_into_clusters
-    assert_equal 2, @translator.split_into_clusters(@four_hello_worlds_alpha_plain).count
-    assert_equal 2, @translator.split_into_clusters(@four_hello_worlds_braille_formatted).count
   end
 
   # ---- translate alpha to braille ----

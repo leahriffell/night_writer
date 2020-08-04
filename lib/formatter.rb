@@ -16,6 +16,8 @@ class Formatter
     end
   end
 
+  # ---- split into clusters ----
+ 
   def max_chars_per_cluster(content)
     if is_braille?(content)
       max_chars_per_cluster = 243
@@ -44,7 +46,9 @@ class Formatter
     end
   end
 
-  def collection_of_braille_arrays_by_row(braille) 
+  # ---- individual braille strings by cluster ----
+
+  def braille_arrays_by_cluster_by_subrow(braille) 
     split_into_clusters(braille).reduce({}) do |result, cluster|
         index = 0 
         all_strings = []
@@ -62,6 +66,8 @@ class Formatter
       result
     end
   end
+
+  # ---- line-wrapping ----
 
   def line_wrap_alpha(alpha)
     alpha.scan(/.{1,40}/).join("\n")

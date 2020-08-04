@@ -93,7 +93,7 @@ class Translator
   # ---- translate braille to alpha ----
 
   def translate_to_alpha(braille)
-    @formatter.collection_of_braille_arrays_by_row(braille).values.flatten.map do |braille_str|
+    @formatter.braille_arrays_by_cluster_by_subrow(braille).values.flatten.map do |braille_str|
       translate_char(braille_str)
     end.join
   end

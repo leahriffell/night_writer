@@ -51,8 +51,8 @@ class FormatterTest < MiniTest::Test
   end
 
   def test_it_can_line_wrap_alpha
-    assert_equal @four_hello_worlds_alpha_formatted, @formatter.translate_to_alpha_and_line_wrap(@four_hello_worlds_alpha_plain)
+    assert_equal @four_hello_worlds_alpha_formatted, @formatter.line_wrap_alpha(@four_hello_worlds_alpha_plain)
 
-    assert_equal @abcs_alpha_formatted, @formatter.translate_to_alpha_and_line_wrap(@abcs_alpha_formatted)
+    assert_equal @abcs_alpha_formatted, @formatter.line_wrap_alpha(@abcs_alpha_formatted)
   end
 end

@@ -63,7 +63,7 @@ class Formatter
     end
   end
 
-  def translate_to_alpha_and_line_wrap(translated_braille)
-    translated_braille.scan(/.{1,40}/).join("\n")
+  def line_wrap_alpha(alpha)
+    alpha.scan(/.{1,40}/).join("\n")
   end
 end

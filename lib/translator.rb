@@ -92,27 +92,8 @@ class Translator
 
   # ---- translate braille to alpha ----
 
-  def collection_of_braille_arrays_by_row(braille) 
-    @formatter.split_into_clusters(braille).reduce({}) do |result, cluster|
-        index = 0 
-        all_strings = []
-        
-        (cluster.text.gsub("\n", "").length/6).times do 
-          braille_char = []
-          braille_char << cluster.text.split("\n").map do |sub_row| 
-            sub_row[index..(index + 1)]
-          end.join
-          all_strings << braille_char
-          index += 2
-        end 
-        
-      result[cluster.text] = all_strings
-      result
-    end
-  end
-
   def translate_to_alpha(braille)
-    collection_of_braille_arrays_by_row(braille).values.flatten.map do |braille_str|
+    @formatter.collection_of_braille_arrays_by_row(braille).values.flatten.map do |braille_str|
       translate_char(braille_str)
     end.join
   end

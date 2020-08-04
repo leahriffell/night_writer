@@ -26,6 +26,10 @@ class Translator
   end
 
    # ---- translate single char ----
+   
+  def individual_chars(content)
+    content.gsub("\n", "").chars
+  end
 
   def is_braille?(content)
     if content.gsub("\n", "").chars.all? {|char| @dictionary.braille_characters.include?(char)}

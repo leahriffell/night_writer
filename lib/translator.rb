@@ -2,9 +2,11 @@ require './lib/file_manager'
 require './lib/dictionary'
 require './lib/formatter'
 require './lib/identifiable'
+require './lib/translation_library'
 
 class Translator
   include Identifiable 
+  include TranslationLibrary
 
   def initialize
     @input = FileManager.new(ARGV[0])

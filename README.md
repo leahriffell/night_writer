@@ -11,8 +11,8 @@ Program for translating alphabetical characters into Braille and vice versa.
   - `$ ruby ./lib/night_reader.rb braille.txt original_message.txt`
 
 # Class Descriptions 
-- **Translator**: handles translating and formatting of Braille to Latin alphabet and vice versa 
-  - Translator requires all classes below
+- **Translator**: handles translating of Braille to Latin alphabet and vice versa 
+- **Formatter**: handles formatting-related methods 
 - **Dictionary**: provides mapping of each alphabet character to its Braille equivalent
 - **FileManager**: manages file functions (input, output, creation, reading)
 - **Cluster**: each cluster represents 1 line of content for text-wrapping purposes (40 alphabetic characters / 80 braille characters)

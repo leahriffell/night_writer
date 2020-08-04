@@ -54,6 +54,10 @@ class TranslatorTest < MiniTest::Test
 
   # ---- translate single char ----
 
+  def test_it_can_return_individual_chars
+    assert_equal ["r", "u", "b", "y"], @translator.individual_chars(@ruby_alpha_formatted) 
+  end
+
   def test_it_can_distinguish_alpha_from_braille
     assert_equal false, @translator.is_braille?(@ruby_alpha_formatted)
     assert_equal true, @translator.is_braille?(@ruby_braille_formatted)

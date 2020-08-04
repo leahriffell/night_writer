@@ -6,6 +6,10 @@ class Formatter
     @dictionary = Dictionary.new
   end
 
+  def individual_chars(content)
+    content.gsub("\n", "").chars
+  end
+  
   def is_braille?(content)
     if content.gsub("\n", "").chars.all? do |char| 
       @dictionary.braille_characters.include?(char)

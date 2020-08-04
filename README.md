@@ -2,6 +2,7 @@
 ### Turing Mod 1 Independent Project
 Program for translating alphabetical characters into Braille and vice versa. 
 
+
 # Instructions 
 - Latin alphabet to Braille:
   - Input your desired message for translation into message.txt 
@@ -9,6 +10,7 @@ Program for translating alphabetical characters into Braille and vice versa.
 - Braille to Latin alphabet: 
   - Input your desired message for translation into braille.txt 
   - `$ ruby ./lib/night_reader.rb braille.txt original_message.txt`
+
 
 # Design Decisions
 ### Classes 

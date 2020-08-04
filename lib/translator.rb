@@ -99,7 +99,7 @@ class Translator
   end
 
   def translate_to_alpha_and_line_wrap(braille)
-    translate_to_alpha(braille).scan(/.{1,40}/).join("\n")
+    @formatter.line_wrap_alpha(translate_to_alpha(braille))
   end
 
   def translate_to_alpha_and_write_to_output

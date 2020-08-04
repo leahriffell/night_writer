@@ -47,6 +47,12 @@ class FormatterTest < MiniTest::Test
     # braille_arrays_by_row = {
     #   "0.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....00.0.0.000.0.0.0.0....0\n00.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00.0000..000.00.0..0..00\n....0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....00.0.0.......0.0.0....0" => [["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"], ["0..00."], ["0.000."], ["0.0.0."], ["00.0.."], ["0.00.."], ["0..0.."], ["0.0.0."], ["0.0.0."], ["0..00."], ["......"], [".000.0"]], "0.0.0.00\n.0000..0\n0.0.0..." => [["0..00."], ["0.000."], ["0.0.0."], ["00.0.."]]
     # }
-    # assert_equal braille_arrays_by_row, @translator.collection_of_braille_arrays_by_row(@four_hello_worlds_braille_formatted)
+    # assert_equal braille_arrays_by_row, @formatter.collection_of_braille_arrays_by_row(@four_hello_worlds_braille_formatted)
+  end
+
+  def test_it_can_line_wrap_alpha
+    assert_equal @four_hello_worlds_alpha_formatted, @formatter.translate_to_alpha_and_line_wrap(@four_hello_worlds_alpha_plain)
+
+    assert_equal @abcs_alpha_formatted, @formatter.translate_to_alpha_and_line_wrap(@abcs_alpha_formatted)
   end
 end

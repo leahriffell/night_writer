@@ -12,8 +12,8 @@ class FormatterTest < MiniTest::Test
   end
 
   def test_it_can_distinguish_alpha_from_braille
-    assert_equal false, @formatter.is_braille?(TranslationLibrary.ruby_alpha_formatted)
-    assert_equal true, @formatter.is_braille?(TranslationLibrary.ruby_braille_formatted)
+    assert_equal false, @formatter.braille?(TranslationLibrary.ruby_alpha_formatted)
+    assert_equal true, @formatter.braille?(TranslationLibrary.ruby_braille_formatted)
   end
 
   # ---- split into clusters ----

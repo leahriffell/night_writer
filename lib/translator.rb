@@ -32,7 +32,7 @@ class Translator
   # ---- translate single char ----
 
   def translate_char(char)
-    if is_braille?(char)
+    if braille?(char)
       @dictionary.char_map.invert[char]
     else 
       @dictionary.char_map[char]

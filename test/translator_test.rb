@@ -43,8 +43,8 @@ class TranslatorTest < MiniTest::Test
   end
 
   def test_it_can_distinguish_alpha_from_braille
-    assert_equal false, @translator.is_braille?(TranslationLibrary.ruby_alpha_formatted)
-    assert_equal true, @translator.is_braille?(TranslationLibrary.ruby_braille_formatted)
+    assert_equal false, @translator.braille?(TranslationLibrary.ruby_alpha_formatted)
+    assert_equal true, @translator.braille?(TranslationLibrary.ruby_braille_formatted)
   end
 
   def test_it_can_translate_single_char

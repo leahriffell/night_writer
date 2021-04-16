@@ -1,6 +1,6 @@
 require './test/helper_test'
 require './lib/formatter'
-require './test/fixtures/translation_examples'
+require './test/fixtures/translation_library'
 
 class FormatterTest < MiniTest::Test
   def setup

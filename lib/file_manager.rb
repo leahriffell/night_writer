@@ -1,9 +1,9 @@
 class FileManager
-  attr_reader :file_path 
-  
-  def initialize(file_path, type = "input")
+  attr_reader :file_path
+
+  def initialize(file_path, type = 'input')
     @file_path = file_path
-    File.new(@file_path, "w") if type == "output"
+    File.new(@file_path, 'w') if type == 'output'
   end
 
   def read

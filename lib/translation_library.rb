@@ -1,6 +1,6 @@
 module TranslationLibrary 
   def four_hello_worlds_alpha_plain
-    "hello worldhello worldhello worldhello world"
+    'hello worldhello worldhello worldhello world'
   end
 
   def four_hello_worlds_alpha_formatted
@@ -12,7 +12,7 @@ module TranslationLibrary
   end
 
   def abcs_alpha_formatted
-    "abcdefghijklmnopqrstuvwxyz"
+    'abcdefghijklmnopqrstuvwxyz'
   end
 
   def abcs_braille_formatted
@@ -20,7 +20,7 @@ module TranslationLibrary
   end
 
   def ruby_alpha_formatted
-    "ruby"
+    'ruby'
   end
 
   def ruby_braille_formatted
@@ -28,7 +28,7 @@ module TranslationLibrary
   end
 
   def ru_alpha_formatted
-    "ru"
+    'ru'
   end
 
   def ru_alpha_braille_formatted

@@ -5,21 +5,21 @@ require './lib/identifiable'
 require './lib/translation_library'
 
 class Translator
-  include Identifiable 
+  include Identifiable
   include TranslationLibrary
 
   def initialize
     @input = FileManager.new(ARGV[0])
-    @output = FileManager.new(ARGV[1], "output")
+    @output = FileManager.new(ARGV[1], 'output')
     @dictionary = Dictionary.new
     @formatter = Formatter.new
   end
 
-  def read_input_file 
+  def read_input_file
     @input.read
   end
 
-  def read_output_file 
+  def read_output_file
     @output.read
   end
 
@@ -31,7 +31,7 @@ class Translator
     "Created '#{@output.file_path}' containing #{read_output_file.length} characters"
   end
 
-   # ---- translate single char ----
+  # ---- translate single char ----
 
   def translate_char(char)
     if is_braille?(char)
@@ -54,27 +54,27 @@ class Translator
   end
 
   def add_rows_and_columns(chars)
-    row_1 = ""
-    row_2 = ""
-    row_3 = ""
+    row_1 = ''
+    row_2 = ''
+    row_3 = ''
 
     collection_of_braille_translations(chars).each do |translation|
       row_1 << translation[0][0..1]
       row_2 << translation[0][2..3]
       row_3 << translation[0][4..5]
     end
-    
-    "#{row_1}\n#{row_2}\n#{row_3}" 
-  end 
 
-  def translate_to_braille(alpha)  
-    result = ""
+    "#{row_1}\n#{row_2}\n#{row_3}"
+  end
 
-    @formatter.split_into_clusters(alpha).each_with_index do |row, index| 
+  def translate_to_braille(alpha)
+    result = ''
+
+    @formatter.split_into_clusters(alpha).each_with_index do |row, index|
+      translation = add_rows_and_columns(row.text)
       if index + 1 == @formatter.last_cluster(alpha)
-        translation = add_rows_and_columns(row.text)
         result << translation
-      else 
+      else
         translation = add_rows_and_columns(row.text)
         result << "#{translation}\n"
       end
@@ -83,7 +83,7 @@ class Translator
   end
 
   def translate_to_braille_and_write_to_output
-    write_to_output(translate_to_braille(read_input_file.gsub("\\n", "")))
+    write_to_output(translate_to_braille(read_input_file.gsub("\\n", '')))
   end
 
   # ---- translate braille to alpha ----
@@ -99,6 +99,6 @@ class Translator
   end
 
   def translate_to_alpha_and_write_to_output
-    write_to_output(translate_to_alpha_and_line_wrap(read_input_file.gsub("\\n", "\n")))   
+    write_to_output(translate_to_alpha_and_line_wrap(read_input_file.gsub("\\n", "\n")))
   end
 end

@@ -28,7 +28,7 @@ class Formatter
   end
 
   def split_into_clusters(content)
-    cluster_range = (1..(content.length/max_chars_per_cluster(content).to_f).ceil).to_a
+    cluster_range = (1..(content.length / max_chars_per_cluster(content).to_f).ceil).to_a
 
     index = 0
     cluster_range.reduce([]) do |result, cluster|

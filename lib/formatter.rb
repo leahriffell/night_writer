@@ -20,12 +20,7 @@ class Formatter
   # ---- split into clusters ----
 
   def max_chars_per_cluster(content)
-    if braille?(content)
-      max_chars_per_cluster = 243
-    else
-      max_chars_per_cluster = 40
-    end
-    max_chars_per_cluster
+    braille?(content) ? 243 : 40
   end
 
   def last_cluster(alpha)

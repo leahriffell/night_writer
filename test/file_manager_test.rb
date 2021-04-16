@@ -5,7 +5,7 @@ class FileReaderTest < MiniTest::Test
   def setup 
     ARGV.replace ['message.txt', 'braille.txt']
     @input = FileManager.new(ARGV[0])
-    @output = FileManager.new(ARGV[1], "output")
+    @output = FileManager.new(ARGV[1], 'output')
   end
 
   def test_it_exists
@@ -18,15 +18,15 @@ class FileReaderTest < MiniTest::Test
   end
 
   def test_it_can_be_written_to
-    assert_equal 23, @input.write("four for you glenn coco")
-    assert_equal 11, @output.write("free barron")
+    assert_equal 23, @input.write('four for you glenn coco')
+    assert_equal 11, @output.write('free barron')
   end
 
-  def test_it_can_be_read 
-    @input.write("four for you glenn coco")
-    assert_equal "four for you glenn coco", @input.read
+  def test_it_can_be_read
+    @input.write('four for you glenn coco')
+    assert_equal 'four for you glenn coco', @input.read
 
-    @output.write("free barron")
-    assert_equal "free barron",@output.read
+    @output.write('free barron')
+    assert_equal 'free barron', @output.read
   end
 end
